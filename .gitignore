@@ -122,3 +122,5 @@ tmp/
 .cove/
 .opencove
 docs/Microsoft/
+
+.context/HBR/
