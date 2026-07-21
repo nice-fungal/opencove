@@ -99,7 +99,6 @@ test.describe('Workspace Canvas - Context Menu Note Create', () => {
         position: { x: 80, y: 80 },
       })
 
-      await expect(window.locator('[data-testid="workspace-context-new-terminal"]')).toBeVisible()
       await expect(window.locator('[data-testid="workspace-context-new-note"]')).toBeVisible()
       await expect(window.locator('[data-testid="workspace-context-new-task"]')).toBeVisible()
     } finally {
@@ -233,7 +232,6 @@ test.describe('Workspace Canvas - Context Menu Note Create', () => {
       await openPaneContextMenuInSpace(window, pane, 'context-space-guard')
 
       await expect(window.locator('[data-testid="workspace-context-create-space"]')).toBeVisible()
-      await expect(window.locator('[data-testid="workspace-context-new-terminal"]')).toBeVisible()
       await window.locator('[data-testid="workspace-context-create-space"]').click()
 
       await expect(window.locator('.workspace-space-region--child')).toBeVisible()

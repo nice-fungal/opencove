@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   type TaskTitleAgentProvider,
-  type QuickCommand,
   type QuickPhrase,
   type TaskTitleProvider,
 } from '@contexts/settings/domain/agentSettings'
@@ -17,7 +16,6 @@ export function TasksAndShortcutsSection({
   effectiveTaskTitleProvider,
   tags,
   addTaskTagInput,
-  quickCommands,
   quickPhrases,
   disableAppShortcutsWhenTerminalFocused,
   keybindings,
@@ -26,7 +24,6 @@ export function TasksAndShortcutsSection({
   onChangeAddTaskTagInput,
   onAddTag,
   onRemoveTag,
-  onChangeQuickCommands,
   onChangeQuickPhrases,
   onChangeDisableAppShortcutsWhenTerminalFocused,
   onChangeKeybindings,
@@ -37,7 +34,6 @@ export function TasksAndShortcutsSection({
   effectiveTaskTitleProvider: TaskTitleAgentProvider
   tags: string[]
   addTaskTagInput: string
-  quickCommands: QuickCommand[]
   quickPhrases: QuickPhrase[]
   disableAppShortcutsWhenTerminalFocused: boolean
   keybindings: KeybindingOverrides
@@ -46,7 +42,6 @@ export function TasksAndShortcutsSection({
   onChangeAddTaskTagInput: (value: string) => void
   onAddTag: () => void
   onRemoveTag: (tag: string) => void
-  onChangeQuickCommands: (commands: QuickCommand[]) => void
   onChangeQuickPhrases: (phrases: QuickPhrase[]) => void
   onChangeDisableAppShortcutsWhenTerminalFocused: (enabled: boolean) => void
   onChangeKeybindings: (keybindings: KeybindingOverrides) => void
@@ -67,9 +62,7 @@ export function TasksAndShortcutsSection({
         onRemoveTag={onRemoveTag}
       />
       <QuickMenuSection
-        quickCommands={quickCommands}
         quickPhrases={quickPhrases}
-        onChangeQuickCommands={onChangeQuickCommands}
         onChangeQuickPhrases={onChangeQuickPhrases}
       />
       <ShortcutsSection

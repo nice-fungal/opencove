@@ -89,7 +89,6 @@ describe('normalized Agent settings boundary', () => {
 
 describe('normalizeAgentSettings', () => {
   it('provides defaults for quick menu fields', () => {
-    expect(DEFAULT_AGENT_SETTINGS.quickCommands).toEqual([])
     expect(DEFAULT_AGENT_SETTINGS.quickPhrases).toEqual([])
     expect(DEFAULT_AGENT_SETTINGS.agentEnvByProvider.codex).toEqual([])
     expect(DEFAULT_AGENT_SETTINGS.agentEnvByProvider['claude-code']).toEqual([])
@@ -239,58 +238,6 @@ describe('normalizeAgentSettings', () => {
 
     expect(settings.archiveSpaceDeleteWorktreeByDefault).toBe(false)
     expect(settings.archiveSpaceDeleteBranchByDefault).toBe(true)
-  })
-
-  it('normalizes quick commands', () => {
-    const settings = normalizeAgentSettings({
-      quickCommands: [
-        {
-          id: 'cmd-1',
-          title: 'Build',
-          kind: 'terminal',
-          command: 'pnpm build',
-          enabled: false,
-          pinned: true,
-        },
-        {
-          id: 'cmd-2',
-          title: 'Docs',
-          kind: 'url',
-          url: 'https://example.com',
-        },
-        {
-          id: 'cmd-2',
-          title: 'Duplicate',
-          kind: 'terminal',
-          command: 'echo hi',
-        },
-        {
-          id: 'cmd-3',
-          title: '',
-          kind: 'terminal',
-          command: 'echo hi',
-        },
-      ],
-    })
-
-    expect(settings.quickCommands).toEqual([
-      {
-        id: 'cmd-1',
-        title: 'Build',
-        kind: 'terminal',
-        command: 'pnpm build',
-        enabled: false,
-        pinned: true,
-      },
-      {
-        id: 'cmd-2',
-        title: 'Docs',
-        kind: 'url',
-        url: 'https://example.com',
-        enabled: true,
-        pinned: false,
-      },
-    ])
   })
 
   it('normalizes quick phrases', () => {

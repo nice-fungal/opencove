@@ -34,7 +34,6 @@ test.describe('Workspace Canvas - Spaces (Menu & Switch)', () => {
         position: { x: 80, y: 80 },
       })
 
-      await expect(window.locator('[data-testid="workspace-context-new-terminal"]')).toBeVisible()
       await expect(window.locator('[data-testid="workspace-selection-create-space"]')).toHaveCount(
         0,
       )

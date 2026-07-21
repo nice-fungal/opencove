@@ -1,5 +1,5 @@
 import { PluginContextCommands } from '@contexts/plugins/presentation/renderer/PluginContextCommands'
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { ViewportMenuSurface } from '@app/renderer/components/ViewportMenuSurface'
 import { useCompactViewport } from '@app/renderer/components/useCompactViewport'
 import { useTranslation } from '@app/renderer/i18n'
@@ -24,7 +24,6 @@ import { useWorkspaceContextInstalledProviders } from './useWorkspaceContextInst
 export function WorkspaceContextMenu({
   contextMenu,
   closeContextMenu,
-  createTerminalNode,
   createNoteNodeFromContextMenu,
   createWebsiteNodeFromContextMenu,
   createPluginNodeFromContextMenu,
@@ -39,9 +38,7 @@ export function WorkspaceContextMenu({
   runProjectRoleFromContextMenu,
   openRoleEditor,
   deleteProjectRole,
-  quickCommands,
   quickPhrases,
-  runQuickCommand,
   insertQuickPhrase,
   openQuickMenuSettings,
   spaces,
@@ -72,19 +69,6 @@ export function WorkspaceContextMenu({
       agentProviderOrder,
       agentExecutablePathOverrideByProvider,
     })
-
-  const enabledQuickCommands = useMemo(
-    () =>
-      quickCommands.filter(
-        command => command.enabled && (command.kind !== 'url' || websiteWindowsEnabled),
-      ),
-    [quickCommands, websiteWindowsEnabled],
-  )
-
-  const pinnedQuickCommands = useMemo(
-    () => enabledQuickCommands.filter(command => command.pinned).slice(0, 4),
-    [enabledQuickCommands],
-  )
 
   const enabledQuickPhrases = quickPhrases.filter(phrase => phrase.enabled)
 
@@ -118,11 +102,6 @@ export function WorkspaceContextMenu({
   const openArrangeSubmenu = useCallback(() => {
     cancelScheduledSubmenuClose()
     setOpenSubmenu('arrangeBy')
-  }, [cancelScheduledSubmenuClose])
-
-  const openQuickCommandsSubmenu = useCallback(() => {
-    cancelScheduledSubmenuClose()
-    setOpenSubmenu('quick-commands')
   }, [cancelScheduledSubmenuClose])
 
   const openQuickPhrasesSubmenu = useCallback(() => {
@@ -173,7 +152,6 @@ export function WorkspaceContextMenu({
   const menuRef = React.useRef<HTMLDivElement | null>(null)
   const submenuRef = React.useRef<HTMLDivElement | null>(null)
   const agentProviderToggleRef = React.useRef<HTMLButtonElement | null>(null)
-  const quickCommandsButtonRef = React.useRef<HTMLButtonElement | null>(null)
   const quickPhrasesButtonRef = React.useRef<HTMLButtonElement | null>(null)
   const roleButtonRef = React.useRef<HTMLButtonElement | null>(null)
   const arrangeByButtonRef = React.useRef<HTMLButtonElement | null>(null)
@@ -218,11 +196,6 @@ export function WorkspaceContextMenu({
   const keepAgentProviderSubmenuOpen = useCallback(() => {
     cancelScheduledSubmenuClose()
     setOpenSubmenu('agent-providers')
-  }, [cancelScheduledSubmenuClose])
-
-  const keepQuickCommandsSubmenuOpen = useCallback(() => {
-    cancelScheduledSubmenuClose()
-    setOpenSubmenu('quick-commands')
   }, [cancelScheduledSubmenuClose])
 
   const keepQuickPhrasesSubmenuOpen = useCallback(() => {
@@ -285,7 +258,6 @@ export function WorkspaceContextMenu({
   }, [
     openSubmenu,
     contextMenu,
-    enabledQuickCommands.length,
     enabledQuickPhrases.length,
     projectRoles.length,
     sortedInstalledProviders.length,
@@ -317,15 +289,13 @@ export function WorkspaceContextMenu({
       ? arrangeByButtonRef.current
       : openSubmenu === 'agent-providers'
         ? agentProviderToggleRef.current
-        : openSubmenu === 'quick-commands'
-          ? quickCommandsButtonRef.current
-          : openSubmenu === 'quick-phrases'
-            ? quickPhrasesButtonRef.current
-            : openSubmenu === 'project-roles'
-              ? roleButtonRef.current
-              : openSubmenu === 'label-color'
-                ? labelColorButtonRef.current
-                : null
+        : openSubmenu === 'quick-phrases'
+          ? quickPhrasesButtonRef.current
+          : openSubmenu === 'project-roles'
+            ? roleButtonRef.current
+            : openSubmenu === 'label-color'
+              ? labelColorButtonRef.current
+              : null
   const measuredSubmenuAnchorRect = activeSubmenuAnchor?.getBoundingClientRect() ?? null
   const submenuMaxHeight = Math.min(SUBMENU_MAX_HEIGHT, viewportHeight - VIEWPORT_PADDING * 2)
   const submenuVisibleHeight =
@@ -388,7 +358,6 @@ export function WorkspaceContextMenu({
       >
         {contextMenu.kind === 'pane' ? (
           <WorkspaceContextPaneMenuContent
-            createTerminalNode={createTerminalNode}
             createNoteNodeFromContextMenu={createNoteNodeFromContextMenu}
             createWebsiteNodeFromContextMenu={createWebsiteNodeFromContextMenu}
             createPluginNodeFromContextMenu={createPluginNodeFromContextMenu}
@@ -404,11 +373,6 @@ export function WorkspaceContextMenu({
             agentProviderToggleRef={agentProviderToggleRef}
             isLoadingInstalledProviders={isLoadingInstalledProviders}
             isAgentProviderSubmenuOpen={openSubmenu === 'agent-providers'}
-            pinnedQuickCommands={pinnedQuickCommands}
-            runQuickCommand={runQuickCommand}
-            quickCommandsButtonRef={quickCommandsButtonRef}
-            openQuickCommandsSubmenu={openQuickCommandsSubmenu}
-            isQuickCommandsSubmenuOpen={openSubmenu === 'quick-commands'}
             quickPhrasesButtonRef={quickPhrasesButtonRef}
             openQuickPhrasesSubmenu={openQuickPhrasesSubmenu}
             isQuickPhrasesSubmenuOpen={openSubmenu === 'quick-phrases'}
@@ -471,18 +435,15 @@ export function WorkspaceContextMenu({
         handleArrangeSpaceFitSelect={handleArrangeSpaceFitSelect}
         handleArrangePreserveWindowSizesSelect={handlePreserveWindowSizesSelect}
         sortedInstalledProviders={sortedInstalledProviders}
-        enabledQuickCommands={enabledQuickCommands}
         enabledQuickPhrases={enabledQuickPhrases}
         projectRoles={projectRoles}
         openRoleCreator={openRoleCreator}
         keepAgentProviderSubmenuOpen={keepAgentProviderSubmenuOpen}
-        keepQuickCommandsSubmenuOpen={keepQuickCommandsSubmenuOpen}
         keepQuickPhrasesSubmenuOpen={keepQuickPhrasesSubmenuOpen}
         keepProjectRolesSubmenuOpen={keepProjectRolesSubmenuOpen}
         keepLabelColorSubmenuOpen={keepLabelColorSubmenuOpen}
         scheduleSubmenuClose={scheduleSubmenuClose}
         openAgentLauncherForProvider={openAgentLauncherForProvider}
-        runQuickCommand={runQuickCommand}
         insertQuickPhrase={insertQuickPhrase}
         openQuickMenuSettings={openQuickMenuSettings}
         closeContextMenu={closeContextMenu}

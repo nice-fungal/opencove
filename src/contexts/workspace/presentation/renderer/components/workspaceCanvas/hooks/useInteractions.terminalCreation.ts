@@ -1,5 +1,4 @@
 import { useCallback, useLayoutEffect, type MutableRefObject } from 'react'
-import { resolvePaneNodeCreationAnchor } from './useInteractions.creationAnchor'
 import type { Node } from '@xyflow/react'
 import type { StandardWindowSizeBucket } from '@contexts/settings/domain/agentSettings'
 import type { TerminalPtyGeometryDisplayMetrics } from '@contexts/workspace/domain/terminalPtyGeometry'
@@ -15,7 +14,6 @@ type SetNodes = (
 ) => void
 
 export function useWorkspaceCanvasTerminalCreation({
-  contextMenu,
   setContextMenu,
   workspaceId,
   spacesRef,
@@ -31,7 +29,6 @@ export function useWorkspaceCanvasTerminalCreation({
   onSpacesChange,
   onShowMessage,
 }: {
-  contextMenu: ContextMenuState | null
   setContextMenu: (next: ContextMenuState | null) => void
   workspaceId: string
   spacesRef: MutableRefObject<WorkspaceSpaceState[]>
@@ -47,7 +44,6 @@ export function useWorkspaceCanvasTerminalCreation({
   onSpacesChange: (spaces: WorkspaceSpaceState[]) => void
   onShowMessage?: (message: string, level: 'info' | 'warning' | 'error') => void
 }): {
-  createTerminalNode: () => Promise<void>
   createTerminalNodeAtFlowPoint: (anchor: Point) => Promise<void>
 } {
   const createTerminalAtFlowPoint = useCallback(
@@ -89,7 +85,8 @@ export function useWorkspaceCanvasTerminalCreation({
   )
 
   useLayoutEffect(() => {
-    if (window.opencoveApi?.meta?.isTest !== true) {
+    const meta = window.opencoveApi?.meta
+    if (meta?.isTest !== true && meta?.enableTerminalTestApi !== true) {
       return
     }
 
@@ -99,16 +96,7 @@ export function useWorkspaceCanvasTerminalCreation({
     }
   }, [createTerminalAtFlowPoint])
 
-  const createTerminalNode = useCallback(async () => {
-    if (!contextMenu || contextMenu.kind !== 'pane') {
-      return
-    }
-
-    await createTerminalAtFlowPoint(resolvePaneNodeCreationAnchor(contextMenu))
-  }, [contextMenu, createTerminalAtFlowPoint])
-
   return {
-    createTerminalNode,
     createTerminalNodeAtFlowPoint: createTerminalAtFlowPoint,
   }
 }

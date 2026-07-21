@@ -51,7 +51,6 @@ export function useWorkspaceCanvasShortcuts({
   canvasRef,
   createSpaceFromSelectedNodes,
   createNoteAtViewportCenter,
-  createTerminalAtViewportCenter,
   createAgentAtViewportCenter,
   activateSpace,
   navigateNode,
@@ -67,7 +66,6 @@ export function useWorkspaceCanvasShortcuts({
   canvasRef: React.RefObject<HTMLDivElement | null>
   createSpaceFromSelectedNodes: () => void
   createNoteAtViewportCenter: () => void
-  createTerminalAtViewportCenter: () => Promise<void>
   createAgentAtViewportCenter: () => Promise<void>
   activateSpace: (spaceId: string) => void
   navigateNode: (direction: SpatialNavigationDirection) => void
@@ -140,9 +138,6 @@ export function useWorkspaceCanvasShortcuts({
         case 'workspaceCanvas.createNote':
           createNoteAtViewportCenter()
           return
-        case 'workspaceCanvas.createTerminal':
-          void createTerminalAtViewportCenter()
-          return
         case 'workspaceCanvas.createAgent':
           void createAgentAtViewportCenter()
           return
@@ -211,7 +206,6 @@ export function useWorkspaceCanvasShortcuts({
     activateSpace,
     createNoteAtViewportCenter,
     createSpaceFromSelectedNodes,
-    createTerminalAtViewportCenter,
     createAgentAtViewportCenter,
     canvasRef,
     disableWhenTerminalFocused,

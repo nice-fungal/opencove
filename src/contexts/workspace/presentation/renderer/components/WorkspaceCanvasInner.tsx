@@ -219,13 +219,11 @@ export function WorkspaceCanvasInner({
     handleCanvasPointerUpCapture,
     handleCanvasDoubleClickCapture,
     handlePaneClick,
-    createTerminalNode,
     createTerminalNodeAtFlowPoint,
     createNoteNodeAtFlowPoint,
     createWebsiteNodeAtFlowPoint,
     createNoteNodeFromContextMenu,
     createWebsiteNodeFromContextMenu,
-    runQuickCommand,
     insertQuickPhrase,
     handleCanvasPaste,
     handleCanvasDragOver,
@@ -296,8 +294,6 @@ export function WorkspaceCanvasInner({
     activeSpaceId,
     spaces,
     agentSettings,
-    workspacePath,
-    environmentVariables,
     canvasRef: canvasState.canvasRef,
     setContextMenu: canvasState.setContextMenu,
     setEmptySelectionPrompt: canvasState.setEmptySelectionPrompt,
@@ -319,7 +315,6 @@ export function WorkspaceCanvasInner({
     setActiveSpaceIdFromNodeNavigation: spacesApi.setActiveSpaceIdFromNodeNavigation,
     clearNodeSelection,
     onShowMessage,
-    terminalDisplayMetrics,
   })
   const applyChanges = workspaceCanvasHooks.useWorkspaceCanvasRuntimeIntegrations({
     actionRefs,
@@ -435,7 +430,6 @@ export function WorkspaceCanvasInner({
         contextMenu={canvasState.contextMenu}
         magneticSnappingEnabled={canvasState.magneticSnappingEnabled}
         onToggleMagneticSnapping={() => canvasState.setMagneticSnappingEnabled(enabled => !enabled)}
-        createTerminalNode={createTerminalNode}
         createNoteNodeFromContextMenu={createNoteNodeFromContextMenu}
         createWebsiteNodeFromContextMenu={createWebsiteNodeFromContextMenu}
         createPluginNodeFromContextMenu={createPluginNodeFromContextMenu}
@@ -445,7 +439,6 @@ export function WorkspaceCanvasInner({
         openTaskCreator={taskUi.openTaskCreator}
         openAgentLauncher={agentSupport.openAgentLauncher}
         openAgentLauncherForProvider={agentSupport.openAgentLauncherForProvider}
-        runQuickCommand={runQuickCommand}
         insertQuickPhrase={insertQuickPhrase}
         openQuickMenuSettings={openQuickMenuSettings}
         createSpaceFromSelectedNodes={spacesApi.createSpaceFromSelectedNodes}
