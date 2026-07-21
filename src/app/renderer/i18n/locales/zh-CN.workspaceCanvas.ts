@@ -1,6 +1,5 @@
 export const zhCNWorkspaceCanvas = {
   workspaceContextMenu: {
-    newTerminal: '新建终端',
     newNote: '新建便签',
     newWebsite: '新建网页窗口',
     newTask: '新建任务',

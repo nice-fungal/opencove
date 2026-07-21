@@ -39,7 +39,6 @@ import {
   normalizeTaskPromptTemplates,
   normalizeTaskPromptTemplatesByWorkspaceId,
 } from './taskPromptTemplates'
-import { normalizeQuickCommands } from './quickCommands'
 import { normalizeQuickPhrases } from './quickPhrases'
 import { normalizeAgentEnvByProvider } from './agentEnv'
 import { normalizeProjectRolesByWorkspaceId } from './projectRoles'
@@ -121,7 +120,6 @@ export {
 export { UI_LANGUAGE_NATIVE_LABEL } from './agentSettings.uiLanguage'
 
 export type { TaskPromptTemplate, TaskPromptTemplatesByWorkspaceId } from './taskPromptTemplates'
-export type { QuickCommand } from './quickCommands'
 export type { QuickPhrase } from './quickPhrases'
 export type { AgentEnvByProvider, AgentEnvRow } from './agentEnv'
 export type { ProjectRoleDefinition, ProjectRolesByWorkspaceId } from './projectRoles'
@@ -245,7 +243,6 @@ export function normalizeAgentSettings(value: unknown): AgentSettings {
   const projectRolesByWorkspaceId = normalizeProjectRolesByWorkspaceId(
     value.projectRolesByWorkspaceId,
   )
-  const quickCommands = normalizeQuickCommands(value.quickCommands)
   const quickPhrases = normalizeQuickPhrases(value.quickPhrases)
   const agentEnvByProvider = normalizeAgentEnvByProvider(value.agentEnvByProvider)
   const viewportTransition = isValidViewportTransition(value.viewportTransition)
@@ -405,7 +402,6 @@ export function normalizeAgentSettings(value: unknown): AgentSettings {
     taskPromptTemplates,
     taskPromptTemplatesByWorkspaceId,
     projectRolesByWorkspaceId,
-    quickCommands,
     quickPhrases,
     agentEnvByProvider,
     viewportTransition,

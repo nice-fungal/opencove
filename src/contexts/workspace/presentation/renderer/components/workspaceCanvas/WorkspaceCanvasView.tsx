@@ -106,7 +106,6 @@ export function WorkspaceCanvasView({
   closeContextMenu,
   magneticSnappingEnabled,
   onToggleMagneticSnapping,
-  createTerminalNode,
   createNoteNodeFromContextMenu,
   createWebsiteNodeFromContextMenu,
   arrangeAll,
@@ -120,7 +119,6 @@ export function WorkspaceCanvasView({
   runProjectRoleFromContextMenu,
   openRoleEditor,
   deleteProjectRole,
-  runQuickCommand,
   insertQuickPhrase,
   openQuickMenuSettings,
   createSpaceFromSelectedNodes,
@@ -408,7 +406,6 @@ export function WorkspaceCanvasView({
       <WorkspaceCanvasMenus
         contextMenu={contextMenu}
         closeContextMenu={closeContextMenu}
-        createTerminalNode={createTerminalNode}
         createNoteNodeFromContextMenu={createNoteNodeFromContextMenu}
         createWebsiteNodeFromContextMenu={createWebsiteNodeFromContextMenu}
         openTaskCreator={openTaskCreator}
@@ -419,7 +416,6 @@ export function WorkspaceCanvasView({
         runProjectRoleFromContextMenu={runProjectRoleFromContextMenu}
         openRoleEditor={openRoleEditor}
         deleteProjectRole={deleteProjectRole}
-        runQuickCommand={runQuickCommand}
         insertQuickPhrase={insertQuickPhrase}
         openQuickMenuSettings={openQuickMenuSettings}
         spaces={spaces}

@@ -9,7 +9,6 @@ export const APP_COMMAND_IDS = [
 export const WORKSPACE_CANVAS_COMMAND_IDS = [
   'workspaceCanvas.createSpace',
   'workspaceCanvas.createNote',
-  'workspaceCanvas.createTerminal',
   'workspaceCanvas.cycleSpacesForward',
   'workspaceCanvas.cycleSpacesBackward',
   'workspaceCanvas.cycleIdleSpacesForward',
@@ -161,7 +160,6 @@ export function resolveDefaultKeybindings(
     'workspace.search': createCommandModifierChord(platform, 'KeyF'),
     'workspaceCanvas.createSpace': createCommandModifierChord(platform, 'KeyG'),
     'workspaceCanvas.createNote': createCommandModifierChord(platform, 'KeyN'),
-    'workspaceCanvas.createTerminal': createCommandModifierChord(platform, 'KeyT'),
     'workspaceCanvas.cycleSpacesForward': createCommandModifierChord(platform, 'BracketRight'),
     'workspaceCanvas.cycleSpacesBackward': createCommandModifierChord(platform, 'BracketLeft'),
     'workspaceCanvas.cycleIdleSpacesForward': createCommandModifierChord(platform, 'BracketRight', {

@@ -229,10 +229,8 @@ export function WorkspaceCanvasInner({
     handleCanvasPointerUpCapture,
     handleCanvasDoubleClickCapture,
     handlePaneClick,
-    createTerminalNode,
     createNoteNodeFromContextMenu,
     createWebsiteNodeFromContextMenu,
-    runQuickCommand,
     insertQuickPhrase,
     handleCanvasPaste,
     handleCanvasDragOver,
@@ -411,7 +409,6 @@ export function WorkspaceCanvasInner({
       contextMenu={canvasState.contextMenu}
       magneticSnappingEnabled={canvasState.magneticSnappingEnabled}
       onToggleMagneticSnapping={() => canvasState.setMagneticSnappingEnabled(enabled => !enabled)}
-      createTerminalNode={createTerminalNode}
       createNoteNodeFromContextMenu={createNoteNodeFromContextMenu}
       createWebsiteNodeFromContextMenu={createWebsiteNodeFromContextMenu}
       arrangeAll={arrangeAll}
@@ -420,7 +417,6 @@ export function WorkspaceCanvasInner({
       openTaskCreator={openTaskCreator}
       openAgentLauncher={agentSupport.openAgentLauncher}
       openAgentLauncherForProvider={agentSupport.openAgentLauncherForProvider}
-      runQuickCommand={runQuickCommand}
       insertQuickPhrase={insertQuickPhrase}
       openQuickMenuSettings={openQuickMenuSettings}
       createSpaceFromSelectedNodes={spacesApi.createSpaceFromSelectedNodes}

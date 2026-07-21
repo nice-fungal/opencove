@@ -143,9 +143,6 @@ test.describe('Shortcuts', () => {
         window.locator('[data-testid="settings-shortcut-value-workspaceCanvas.createNote"]'),
       ).toHaveAttribute('data-keybinding', process.platform === 'darwin' ? '⌘N' : 'Ctrl N')
       await expect(
-        window.locator('[data-testid="settings-shortcut-value-workspaceCanvas.createTerminal"]'),
-      ).toHaveAttribute('data-keybinding', process.platform === 'darwin' ? '⌘T' : 'Ctrl T')
-      await expect(
         window.locator(
           '[data-testid="settings-shortcut-value-workspaceCanvas.cycleSpacesForward"]',
         ),

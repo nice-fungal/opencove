@@ -23,7 +23,6 @@ import type { AgentEnvByProvider } from './agentEnv'
 import type { FocusNodeTargetZoom } from './focusNodeTargetZoom'
 import type { KeybindingOverrides } from './keybindings'
 import type { ProjectRolesByWorkspaceId } from './projectRoles'
-import type { QuickCommand } from './quickCommands'
 import type { QuickPhrase } from './quickPhrases'
 import type { TaskPromptTemplate, TaskPromptTemplatesByWorkspaceId } from './taskPromptTemplates'
 import type { TerminalDisplayReference } from './terminalDisplayCalibration'
@@ -53,7 +52,6 @@ export interface AgentSettings {
   taskPromptTemplates: TaskPromptTemplate[]
   taskPromptTemplatesByWorkspaceId: TaskPromptTemplatesByWorkspaceId
   projectRolesByWorkspaceId: ProjectRolesByWorkspaceId
-  quickCommands: QuickCommand[]
   quickPhrases: QuickPhrase[]
   agentEnvByProvider: AgentEnvByProvider
   viewportTransition: ViewportTransition

@@ -136,7 +136,7 @@ export const SETTINGS_PAGE_REGISTRY: Readonly<
   'tasks-shortcuts': { canonicalPageId: 'tasks-shortcuts' },
   'quick-menu': {
     canonicalPageId: 'tasks-shortcuts',
-    scrollTargetId: 'settings-section-quick-commands',
+    scrollTargetId: 'settings-section-quick-phrases',
   },
   notifications: { canonicalPageId: 'notifications' },
   canvas: { canonicalPageId: 'canvas-windows' },

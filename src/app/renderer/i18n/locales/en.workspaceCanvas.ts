@@ -1,6 +1,5 @@
 export const enWorkspaceCanvas = {
   workspaceContextMenu: {
-    newTerminal: 'New Terminal',
     newNote: 'New Note',
     newWebsite: 'New Website',
     newTask: 'New Task',

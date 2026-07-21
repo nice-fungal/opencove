@@ -114,7 +114,6 @@ export function SettingsPanel({
     updateUpdatePolicy,
     updateUpdateChannel,
     updateTaskTagOptions,
-    updateQuickCommands,
     updateQuickPhrases,
     updateAgentEnvByProvider,
     updateDisableAppShortcutsWhenTerminalFocused,
@@ -450,7 +449,6 @@ export function SettingsPanel({
               effectiveTaskTitleProvider={effectiveTaskTitleProvider}
               tags={settings.taskTagOptions}
               addTaskTagInput={addTaskTagInput}
-              quickCommands={settings.quickCommands}
               quickPhrases={settings.quickPhrases}
               disableAppShortcutsWhenTerminalFocused={
                 settings.disableAppShortcutsWhenTerminalFocused
@@ -461,7 +459,6 @@ export function SettingsPanel({
               onChangeAddTaskTagInput={setAddTaskTagInput}
               onAddTag={addTaskTagOption}
               onRemoveTag={removeTaskTagOption}
-              onChangeQuickCommands={updateQuickCommands}
               onChangeQuickPhrases={updateQuickPhrases}
               onChangeDisableAppShortcutsWhenTerminalFocused={
                 updateDisableAppShortcutsWhenTerminalFocused

@@ -207,7 +207,6 @@ function createBaseProps(
     closeContextMenu: () => undefined,
     magneticSnappingEnabled: true,
     onToggleMagneticSnapping: () => undefined,
-    createTerminalNode: async () => undefined,
     createNoteNodeFromContextMenu: () => undefined,
     arrangeAll: () => undefined,
     arrangeCanvas: () => undefined,

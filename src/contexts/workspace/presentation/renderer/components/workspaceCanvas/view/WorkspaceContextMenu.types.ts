@@ -2,7 +2,6 @@ import type {
   AgentExecutablePathOverrideByProvider,
   AgentProvider,
   ProjectRoleDefinition,
-  QuickCommand,
   QuickPhrase,
 } from '@contexts/settings/domain/agentSettings'
 import type { NodeLabelColorOverride } from '@shared/types/labelColor'
@@ -11,18 +10,11 @@ import type { ContextMenuState } from '../types'
 import type { WorkspaceArrangeStyle } from '../../../utils/workspaceArrange'
 
 export type OpenSubmenu =
-  | 'arrangeBy'
-  | 'agent-providers'
-  | 'label-color'
-  | 'project-roles'
-  | 'quick-commands'
-  | 'quick-phrases'
-  | null
+  'arrangeBy' | 'agent-providers' | 'label-color' | 'project-roles' | 'quick-phrases' | null
 
 export interface WorkspaceContextMenuProps {
   contextMenu: ContextMenuState | null
   closeContextMenu: () => void
-  createTerminalNode: () => Promise<void>
   createNoteNodeFromContextMenu: () => void
   createWebsiteNodeFromContextMenu: () => void
   websiteWindowsEnabled: boolean
@@ -36,9 +28,7 @@ export interface WorkspaceContextMenuProps {
   runProjectRoleFromContextMenu: (roleId: string) => void
   openRoleEditor: (roleId: string) => void
   deleteProjectRole: (roleId: string) => void
-  quickCommands: QuickCommand[]
   quickPhrases: QuickPhrase[]
-  runQuickCommand: (command: QuickCommand) => Promise<void>
   insertQuickPhrase: (phrase: QuickPhrase) => void
   openQuickMenuSettings: () => void
   spaces: WorkspaceSpaceState[]

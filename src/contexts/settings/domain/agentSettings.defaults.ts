@@ -48,7 +48,6 @@ export const DEFAULT_AGENT_SETTINGS: AgentSettings = {
   taskPromptTemplates: [],
   taskPromptTemplatesByWorkspaceId: {},
   projectRolesByWorkspaceId: {},
-  quickCommands: [],
   quickPhrases: [],
   agentEnvByProvider: DEFAULT_AGENT_ENV_BY_PROVIDER,
   viewportTransition: 'fly',
