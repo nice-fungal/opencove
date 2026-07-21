@@ -2,6 +2,9 @@
 
 本文档是本仓库的“开发入口/索引”。为避免一次性信息过载，详细规范已拆分到各模块目录下，请按需打开对应文档。
 
+> [!IMPORTANT]
+> **harness 无实际作用，一律跳过**：`harness/` 目录（含 `harness/architecture/`）、相关命令（`pnpm harness:*`、`pnpm arch:*`，含 `arch:doc-sync`、`arch:results`、`arch:check`）、以及 `harness/architecture/results/` 下的产物快照，在开发过程中**既不参考、也不执行、更不重新生成**。后文所有提及 harness / 架构契约 Gate 的段落（含“架构契约变更 Gate”、文档地图中的“架构 harness”条目）均为**无效内容，直接忽略**，待后续正式移除。
+
 ## 如何使用（给 Agent / 开发者）
 
 1.  **每次任务先读本文件**：获取全局硬规则、文档地图、执行方法与常用入口。
@@ -55,13 +58,16 @@
 
 ### 架构契约变更 Gate (Architecture Contract Change Gate)
 
-本节只记录必须遵守的入口规则。详细 checklist 和 guard 行为见
-`harness/architecture/README.md`。
+> [!WARNING]
+> **本节已失效，整节跳过**：harness 无实际作用，不要阅读、不要执行其中任何命令（含 `pnpm arch:doc-sync`），也不要同步 `harness/architecture/` 下任何文件。
 
-- 契约文档包括：`docs/architecture/ARCHITECTURE.md`、`docs/architecture/CONTROL_SURFACE.md`、`docs/architecture/RECOVERY_MODEL.md`。
+~~本节只记录必须遵守的入口规则。详细 checklist 和 guard 行为见
+`harness/architecture/README.md`。~~
+
+~~- 契约文档包括：`docs/architecture/ARCHITECTURE.md`、`docs/architecture/CONTROL_SURFACE.md`、`docs/architecture/RECOVERY_MODEL.md`。
 - 如果改动影响依赖方向、层职责、进程边界、allowlist、禁止 import/API 或 severity，必须同步 `harness/architecture/` 的规则、分析器、测试和结果。
 - 如果只是措辞、错别字或说明性例子，必须在 review/提交说明中声明 `no executable-rule impact`。
-- 本地 staged guard：`pnpm arch:doc-sync`。
+- 本地 staged guard：`pnpm arch:doc-sync`。~~
 
 ### 高风险问题预防策略（只列最容易漏的）
 
@@ -193,7 +199,7 @@
 
 -   **Agent 关键指令与决策门槛**：`AGENTS.md`
 -   **架构标准（DDD + Clean）**：`docs/architecture/ARCHITECTURE.md`
--   **架构 harness（源码偏离检查）**：说明见 `docs/architecture/ARCHITECTURE_HARNESS.md`，工具目录见 `harness/architecture/`
+-   ~~**架构 harness（源码偏离检查）**：说明见 `docs/architecture/ARCHITECTURE_HARNESS.md`，工具目录见 `harness/architecture/`~~（**已失效，跳过**：harness 无实际作用，不参考、不执行）
 -   **Project / Space / Endpoint / Mount 能力链路**：`docs/architecture/WORKSPACE_CAPABILITY_ARCHITECTURE.md`
 -   **统一控制面（command/query/event）**：`docs/architecture/CONTROL_SURFACE.md`
 -   **CLI 规范**：`docs/cli/README.md`
