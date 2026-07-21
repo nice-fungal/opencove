@@ -1,13 +1,8 @@
 import { useCallback } from 'react'
 import type { Edge, Node, ReactFlowInstance } from '@xyflow/react'
 import type { AgentSettings } from '@contexts/settings/domain/agentSettings'
-import type { TerminalPtyGeometryDisplayMetrics } from '@contexts/workspace/domain/terminalPtyGeometry'
 import type { TerminalNodeData, WorkspaceSpaceState } from '../../../types'
-import type { CreateNodeInput } from '../types'
-import {
-  createNoteNodeAtFlowPosition,
-  createTerminalNodeAtFlowPosition,
-} from './useInteractions.paneNodeCreation'
+import { createNoteNodeAtFlowPosition } from './useInteractions.paneNodeCreation'
 import { focusNodeInViewport } from '../helpers'
 import { useWorkspaceCanvasShortcuts } from './useShortcuts'
 import {
@@ -124,12 +119,9 @@ function schedulePrimaryNodeEditorFocus(nodeId: string): void {
 
 export function useWorkspaceCanvasShortcutActions({
   enabled,
-  workspaceId,
   activeSpaceId,
   spaces,
   agentSettings,
-  workspacePath,
-  environmentVariables,
   canvasRef,
   setContextMenu,
   setEmptySelectionPrompt,
@@ -144,30 +136,22 @@ export function useWorkspaceCanvasShortcutActions({
   selectedNodeIdsRef,
   selectedSpaceIdsRef,
   onSpacesChange,
-  createNodeForSession,
   createNoteNode,
   createSpaceFromSelectedNodes,
   activateSpace,
   setActiveSpaceIdFromNodeNavigation,
   clearNodeSelection,
-  onShowMessage,
-  terminalDisplayMetrics,
 }: {
   enabled: boolean
-  workspaceId: string
   activeSpaceId: string | null
   spaces: WorkspaceSpaceState[]
   agentSettings: Pick<
     AgentSettings,
-    | 'defaultTerminalProfileId'
     | 'disableAppShortcutsWhenTerminalFocused'
     | 'keybindings'
     | 'focusNodeTargetZoom'
     | 'standardWindowSizeBucket'
-    | 'terminalFontSize'
   >
-  workspacePath: string
-  environmentVariables?: Record<string, string>
   canvasRef: React.RefObject<HTMLDivElement | null>
   setContextMenu: React.Dispatch<React.SetStateAction<import('../types').ContextMenuState | null>>
   setEmptySelectionPrompt: React.Dispatch<
@@ -184,14 +168,11 @@ export function useWorkspaceCanvasShortcutActions({
   selectedNodeIdsRef: React.MutableRefObject<string[]>
   selectedSpaceIdsRef: React.MutableRefObject<string[]>
   onSpacesChange: (spaces: WorkspaceSpaceState[]) => void
-  createNodeForSession: (input: CreateNodeInput) => Promise<Node<TerminalNodeData> | null>
   createNoteNode: (anchor: { x: number; y: number }) => Node<TerminalNodeData> | null
   createSpaceFromSelectedNodes: () => void
   activateSpace: (spaceId: string) => void
   setActiveSpaceIdFromNodeNavigation: (spaceId: string | null) => void
   clearNodeSelection: () => void
-  onShowMessage?: (message: string, level: 'info' | 'warning' | 'error') => void
-  terminalDisplayMetrics: TerminalPtyGeometryDisplayMetrics
 }): void {
   const selectNode = useWorkspaceCanvasSelectNode({
     setNodes,
@@ -236,56 +217,6 @@ export function useWorkspaceCanvasShortcutActions({
     setEmptySelectionPrompt,
     setNodes,
     spacesRef,
-  ])
-
-  const createTerminalAtViewportCenter = useCallback(async (): Promise<void> => {
-    const canvas = canvasRef.current
-    if (!canvas) {
-      return
-    }
-
-    const clientPoint = resolveCanvasVisualCenter(canvas.getBoundingClientRect())
-    const anchor = reactFlow.screenToFlowPosition(clientPoint)
-
-    setContextMenu(null)
-    setEmptySelectionPrompt(null)
-    cancelSpaceRename()
-
-    await createTerminalNodeAtFlowPosition({
-      anchor,
-      workspaceId,
-      defaultTerminalProfileId: agentSettings.defaultTerminalProfileId,
-      standardWindowSizeBucket: agentSettings.standardWindowSizeBucket,
-      terminalFontSize: agentSettings.terminalFontSize,
-      terminalDisplayMetrics,
-      workspacePath,
-      environmentVariables,
-      spacesRef,
-      nodesRef,
-      setNodes,
-      onSpacesChange,
-      createNodeForSession,
-      onShowMessage,
-    })
-  }, [
-    agentSettings.defaultTerminalProfileId,
-    agentSettings.standardWindowSizeBucket,
-    agentSettings.terminalFontSize,
-    terminalDisplayMetrics,
-    cancelSpaceRename,
-    canvasRef,
-    createNodeForSession,
-    environmentVariables,
-    nodesRef,
-    onSpacesChange,
-    reactFlow,
-    setContextMenu,
-    setEmptySelectionPrompt,
-    setNodes,
-    spacesRef,
-    workspacePath,
-    workspaceId,
-    onShowMessage,
   ])
 
   const navigateNode = useCallback(
@@ -402,7 +333,6 @@ export function useWorkspaceCanvasShortcutActions({
     nodesRef,
     createSpaceFromSelectedNodes,
     createNoteAtViewportCenter,
-    createTerminalAtViewportCenter,
     activateSpace,
     navigateNode,
     navigateSpace,

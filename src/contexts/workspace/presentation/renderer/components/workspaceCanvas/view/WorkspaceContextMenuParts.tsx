@@ -12,14 +12,9 @@ import {
   Magnet,
   Play,
   SlidersHorizontal,
-  Terminal,
 } from 'lucide-react'
 import { useTranslation } from '@app/renderer/i18n'
-import {
-  AGENT_PROVIDER_LABEL,
-  type AgentProvider,
-  type QuickCommand,
-} from '@contexts/settings/domain/agentSettings'
+import { AGENT_PROVIDER_LABEL, type AgentProvider } from '@contexts/settings/domain/agentSettings'
 import { LABEL_COLORS, type NodeLabelColorOverride } from '@shared/types/labelColor'
 import { WorkspaceContextQuickMenuItems } from './WorkspaceContextMenuQuickMenuParts'
 import { WorkspaceContextRoleMenuItems } from './WorkspaceContextRoleMenuParts'
@@ -33,7 +28,6 @@ function renderMark(checked: boolean): React.JSX.Element {
 }
 
 export function WorkspaceContextPaneMenuContent({
-  createTerminalNode,
   createNoteNodeFromContextMenu,
   createWebsiteNodeFromContextMenu,
   websiteWindowsEnabled,
@@ -48,11 +42,6 @@ export function WorkspaceContextPaneMenuContent({
   agentProviderToggleRef,
   isLoadingInstalledProviders,
   isAgentProviderSubmenuOpen,
-  pinnedQuickCommands,
-  runQuickCommand,
-  quickCommandsButtonRef,
-  openQuickCommandsSubmenu,
-  isQuickCommandsSubmenuOpen,
   quickPhrasesButtonRef,
   openQuickPhrasesSubmenu,
   isQuickPhrasesSubmenuOpen,
@@ -65,7 +54,6 @@ export function WorkspaceContextPaneMenuContent({
   magneticSnappingEnabled,
   onToggleMagneticSnapping,
 }: {
-  createTerminalNode: () => Promise<void>
   createNoteNodeFromContextMenu: () => void
   createWebsiteNodeFromContextMenu: () => void
   websiteWindowsEnabled: boolean
@@ -80,11 +68,6 @@ export function WorkspaceContextPaneMenuContent({
   agentProviderToggleRef: React.RefObject<HTMLButtonElement | null>
   isLoadingInstalledProviders: boolean
   isAgentProviderSubmenuOpen: boolean
-  pinnedQuickCommands: QuickCommand[]
-  runQuickCommand: (command: QuickCommand) => Promise<void>
-  quickCommandsButtonRef: React.RefObject<HTMLButtonElement | null>
-  openQuickCommandsSubmenu: () => void
-  isQuickCommandsSubmenuOpen: boolean
   quickPhrasesButtonRef: React.RefObject<HTMLButtonElement | null>
   openQuickPhrasesSubmenu: () => void
   isQuickPhrasesSubmenuOpen: boolean
@@ -101,18 +84,6 @@ export function WorkspaceContextPaneMenuContent({
 
   return (
     <>
-      <button
-        type="button"
-        data-testid="workspace-context-new-terminal"
-        onClick={() => {
-          void createTerminalNode()
-        }}
-      >
-        <Terminal className="workspace-context-menu__icon" aria-hidden="true" />
-        <span className="workspace-context-menu__label">
-          {t('workspaceContextMenu.newTerminal')}
-        </span>
-      </button>
       <button
         type="button"
         data-testid="workspace-context-new-note"
@@ -204,11 +175,6 @@ export function WorkspaceContextPaneMenuContent({
         </button>
       ) : null}
       <WorkspaceContextQuickMenuItems
-        pinnedQuickCommands={pinnedQuickCommands}
-        runQuickCommand={runQuickCommand}
-        quickCommandsButtonRef={quickCommandsButtonRef}
-        openQuickCommandsSubmenu={openQuickCommandsSubmenu}
-        isQuickCommandsSubmenuOpen={isQuickCommandsSubmenuOpen}
         quickPhrasesButtonRef={quickPhrasesButtonRef}
         openQuickPhrasesSubmenu={openQuickPhrasesSubmenu}
         isQuickPhrasesSubmenuOpen={isQuickPhrasesSubmenuOpen}

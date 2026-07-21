@@ -117,33 +117,10 @@ export const zhCNSettingsPanel = {
     },
   },
   quickMenu: {
-    title: '快捷指令与短语',
+    title: '快捷短语',
     customize: '自定义…',
     edit: '编辑',
     invalidForm: '请填写必填项。',
-    commands: {
-      title: '快捷指令',
-      help: '把自定义终端命令或 URL 放到工作区右键菜单中。已置顶的指令会直接平铺在根菜单里。',
-      add: '添加快捷指令',
-      createTitle: '创建快捷指令',
-      editTitle: '编辑快捷指令',
-      editorHelp: '终端命令会在新终端节点中执行；URL 会在新网页节点中打开。',
-      titleLabel: '名称',
-      titlePlaceholder: '为指令命名…',
-      kindLabel: '类型',
-      kind: {
-        terminal: '终端命令',
-        url: '打开 URL',
-      },
-      commandLabel: '命令',
-      commandPlaceholder: '例如 pnpm test',
-      urlLabel: 'URL',
-      urlPlaceholder: 'https://example.com',
-      enabled: '启用',
-      enabledHelp: '控制该指令是否显示在工作区右键菜单中。',
-      pinned: '置顶',
-      pinnedHelp: '置顶后会直接显示在右键菜单根级（位于「快捷指令」子菜单之上）。',
-    },
     phrases: {
       title: '快捷短语',
       help: '在右键菜单中把常用短语插入到当前聚焦的输入框。',
@@ -356,10 +333,6 @@ export const zhCNSettingsPanel = {
       workspaceCanvasCreateNote: {
         title: '创建 Note',
         help: '从根画布视觉中心创建一个 Note。',
-      },
-      workspaceCanvasCreateTerminal: {
-        title: '创建终端',
-        help: '从根画布视觉中心创建一个终端。',
       },
       workspaceCanvasCycleSpacesForward: {
         title: '下一个 Space',

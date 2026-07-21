@@ -355,57 +355,6 @@ export function createWebsiteNodeAtFlowPosition({
   })
 }
 
-export async function createTerminalNodeFromPaneContextMenu({
-  contextMenu,
-  defaultTerminalProfileId,
-  workspacePath,
-  environmentVariables,
-  spacesRef,
-  nodesRef,
-  standardWindowSizeBucket,
-  terminalFontSize,
-  setNodes,
-  onSpacesChange,
-  createNodeForSession,
-  setContextMenu,
-}: {
-  contextMenu: ContextMenuState | null
-  defaultTerminalProfileId: string | null
-  workspacePath: string
-  environmentVariables?: Record<string, string>
-  spacesRef: MutableRefObject<WorkspaceSpaceState[]>
-  nodesRef: MutableRefObject<Node<TerminalNodeData>[]>
-  standardWindowSizeBucket: StandardWindowSizeBucket
-  terminalFontSize?: number
-  setNodes: SetNodes
-  onSpacesChange: (spaces: WorkspaceSpaceState[]) => void
-  createNodeForSession: (input: CreateNodeInput) => Promise<Node<TerminalNodeData> | null>
-  setContextMenu: (next: ContextMenuState | null) => void
-}): Promise<void> {
-  if (!contextMenu || contextMenu.kind !== 'pane') {
-    return
-  }
-
-  setContextMenu(null)
-  await createTerminalNodeAtFlowPosition({
-    anchor: {
-      x: contextMenu.flowX,
-      y: contextMenu.flowY,
-    },
-    workspaceId: '',
-    defaultTerminalProfileId,
-    standardWindowSizeBucket,
-    terminalFontSize,
-    workspacePath,
-    environmentVariables,
-    spacesRef,
-    nodesRef,
-    setNodes,
-    onSpacesChange,
-    createNodeForSession,
-  })
-}
-
 export function createWebsiteNodeFromPaneContextMenu({
   contextMenu,
   url,

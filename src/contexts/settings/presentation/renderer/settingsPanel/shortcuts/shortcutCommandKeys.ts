@@ -16,8 +16,6 @@ export function getCommandTitleKey(commandId: CommandId): string {
       return 'settingsPanel.shortcuts.commands.workspaceCanvasCreateSpace.title'
     case 'workspaceCanvas.createNote':
       return 'settingsPanel.shortcuts.commands.workspaceCanvasCreateNote.title'
-    case 'workspaceCanvas.createTerminal':
-      return 'settingsPanel.shortcuts.commands.workspaceCanvasCreateTerminal.title'
     case 'workspaceCanvas.cycleSpacesForward':
       return 'settingsPanel.shortcuts.commands.workspaceCanvasCycleSpacesForward.title'
     case 'workspaceCanvas.cycleSpacesBackward':
@@ -65,8 +63,6 @@ export function getCommandHelpKey(commandId: CommandId): string {
       return 'settingsPanel.shortcuts.commands.workspaceCanvasCreateSpace.help'
     case 'workspaceCanvas.createNote':
       return 'settingsPanel.shortcuts.commands.workspaceCanvasCreateNote.help'
-    case 'workspaceCanvas.createTerminal':
-      return 'settingsPanel.shortcuts.commands.workspaceCanvasCreateTerminal.help'
     case 'workspaceCanvas.cycleSpacesForward':
       return 'settingsPanel.shortcuts.commands.workspaceCanvasCycleSpacesForward.help'
     case 'workspaceCanvas.cycleSpacesBackward':

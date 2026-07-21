@@ -263,19 +263,6 @@ const CORE_SEARCH_ENTRY_DEFINITIONS: Array<
     keywords: ['keybinding', 'hotkey', 'record', '快捷键'],
   },
   {
-    id: 'quick-menu.commands',
-    pageId: 'tasks-shortcuts',
-    titleKey: 'settingsPanel.quickMenu.commands.title',
-    descriptionKey: 'settingsPanel.quickMenu.commands.help',
-    anchorId: 'settings-section-quick-commands',
-    keywordKeys: [
-      'settingsPanel.quickMenu.commands.commandLabel',
-      'settingsPanel.quickMenu.commands.urlLabel',
-      'settingsPanel.quickMenu.commands.pinned',
-    ],
-    keywords: ['context menu', 'command', 'url', '右键', '命令'],
-  },
-  {
     id: 'quick-menu.phrases',
     pageId: 'tasks-shortcuts',
     titleKey: 'settingsPanel.quickMenu.phrases.title',

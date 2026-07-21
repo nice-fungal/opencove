@@ -2,11 +2,7 @@ import type * as React from 'react'
 import type { Edge, Node, NodeTypes, OnNodesChange, Viewport } from '@xyflow/react'
 import type { WorkspacePathOpener, WorkspacePathOpenerId } from '@shared/contracts/dto'
 import type { LabelColor, NodeLabelColorOverride } from '@shared/types/labelColor'
-import type {
-  ProjectRoleDefinition,
-  QuickCommand,
-  QuickPhrase,
-} from '@contexts/settings/domain/agentSettings'
+import type { ProjectRoleDefinition, QuickPhrase } from '@contexts/settings/domain/agentSettings'
 import type {
   AgentNodeData,
   TerminalNodeData,
@@ -134,7 +130,6 @@ export interface WorkspaceCanvasViewProps {
   closeContextMenu: () => void
   magneticSnappingEnabled: boolean
   onToggleMagneticSnapping: () => void
-  createTerminalNode: () => Promise<void>
   createNoteNodeFromContextMenu: () => void
   createWebsiteNodeFromContextMenu: () => void
   arrangeAll: (style?: WorkspaceArrangeStyle) => void
@@ -148,7 +143,6 @@ export interface WorkspaceCanvasViewProps {
   runProjectRoleFromContextMenu: (roleId: string) => void
   openRoleEditor: (roleId: string) => void
   deleteProjectRole: (roleId: string) => void
-  runQuickCommand: (command: QuickCommand) => Promise<void>
   insertQuickPhrase: (phrase: QuickPhrase) => void
   openQuickMenuSettings: () => void
   createSpaceFromSelectedNodes: () => void

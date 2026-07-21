@@ -98,8 +98,6 @@ export function createSettingsPanelUpdaters({
     updateUpdateChannel,
     updateTaskTagOptions: (taskTagOptions: string[]): void =>
       updateSetting('taskTagOptions', taskTagOptions),
-    updateQuickCommands: (quickCommands: AgentSettings['quickCommands']): void =>
-      updateSetting('quickCommands', quickCommands),
     updateQuickPhrases: (quickPhrases: AgentSettings['quickPhrases']): void =>
       updateSetting('quickPhrases', quickPhrases),
     updateAgentEnvByProvider: (agentEnvByProvider: AgentSettings['agentEnvByProvider']): void =>

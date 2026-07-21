@@ -255,7 +255,7 @@ export async function switchSettingsPage(window: Page, pageId: string): Promise<
   const legacyTargetId: Record<string, string> = {
     endpoints: 'settings-section-endpoints',
     shortcuts: 'settings-section-shortcuts',
-    'quick-menu': 'settings-section-quick-commands',
+    'quick-menu': 'settings-section-quick-phrases',
     diagnostics: 'settings-section-diagnostics',
   }
   const targetId = legacyTargetId[pageId]

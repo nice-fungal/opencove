@@ -6,7 +6,6 @@ import { WorkspaceSpaceActionMenu } from './WorkspaceSpaceActionMenu'
 export function WorkspaceCanvasMenus({
   contextMenu,
   closeContextMenu,
-  createTerminalNode,
   createNoteNodeFromContextMenu,
   createWebsiteNodeFromContextMenu,
   openTaskCreator,
@@ -17,7 +16,6 @@ export function WorkspaceCanvasMenus({
   runProjectRoleFromContextMenu,
   openRoleEditor,
   deleteProjectRole,
-  runQuickCommand,
   insertQuickPhrase,
   openQuickMenuSettings,
   spaces,
@@ -52,7 +50,6 @@ export function WorkspaceCanvasMenus({
   WorkspaceCanvasViewProps,
   | 'contextMenu'
   | 'closeContextMenu'
-  | 'createTerminalNode'
   | 'createNoteNodeFromContextMenu'
   | 'createWebsiteNodeFromContextMenu'
   | 'openTaskCreator'
@@ -63,7 +60,6 @@ export function WorkspaceCanvasMenus({
   | 'runProjectRoleFromContextMenu'
   | 'openRoleEditor'
   | 'deleteProjectRole'
-  | 'runQuickCommand'
   | 'insertQuickPhrase'
   | 'openQuickMenuSettings'
   | 'spaces'
@@ -107,7 +103,6 @@ export function WorkspaceCanvasMenus({
       <WorkspaceContextMenu
         contextMenu={contextMenu}
         closeContextMenu={closeContextMenu}
-        createTerminalNode={createTerminalNode}
         createNoteNodeFromContextMenu={createNoteNodeFromContextMenu}
         createWebsiteNodeFromContextMenu={createWebsiteNodeFromContextMenu}
         websiteWindowsEnabled={agentSettings.websiteWindowPolicy.enabled}
@@ -121,9 +116,7 @@ export function WorkspaceCanvasMenus({
         runProjectRoleFromContextMenu={runProjectRoleFromContextMenu}
         openRoleEditor={openRoleEditor}
         deleteProjectRole={deleteProjectRole}
-        quickCommands={agentSettings.quickCommands}
         quickPhrases={agentSettings.quickPhrases}
-        runQuickCommand={runQuickCommand}
         insertQuickPhrase={insertQuickPhrase}
         openQuickMenuSettings={openQuickMenuSettings}
         spaces={spaces}

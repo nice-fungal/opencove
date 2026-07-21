@@ -367,8 +367,7 @@ export function useWorkspaceCanvasInteractions({
     },
     [cancelSpaceRename, clearNodeSelection, ignoreNextPaneClickRef, setEmptySelectionPrompt],
   )
-  const createTerminalNode = useWorkspaceCanvasTerminalCreation({
-    contextMenu,
+  useWorkspaceCanvasTerminalCreation({
     setContextMenu,
     workspaceId,
     spacesRef,
@@ -417,25 +416,15 @@ export function useWorkspaceCanvasInteractions({
     standardWindowSizeBucket,
     websiteWindowsEnabled,
   })
-  const { runQuickCommand, insertQuickPhrase } = useWorkspaceCanvasQuickMenuActions({
+  const { insertQuickPhrase } = useWorkspaceCanvasQuickMenuActions({
     contextMenu,
     setContextMenu,
-    workspaceId,
-    websiteWindowsEnabled,
     standardWindowSizeBucket,
-    browserDefaultMode,
-    terminalFontSize,
-    terminalDisplayMetrics,
-    createWebsiteNode,
     createNoteNode,
     spacesRef,
     nodesRef,
     setNodes,
     onSpacesChange,
-    defaultTerminalProfileId,
-    workspacePath,
-    createNodeForSession,
-    onShowMessage,
   })
   const pasteHandlers = useWorkspaceCanvasPasteHandlers({
     canvasRef,
@@ -478,10 +467,8 @@ export function useWorkspaceCanvasInteractions({
     handleCanvasPointerMoveCapture: handleCanvasPointerMoveCaptureWithDragGuard,
     handleCanvasPointerUpCapture: handleCanvasPointerUpCaptureWithDragGuard,
     handlePaneClick,
-    createTerminalNode,
     createNoteNodeFromContextMenu,
     createWebsiteNodeFromContextMenu,
-    runQuickCommand,
     insertQuickPhrase,
     handleCanvasPaste: pasteHandlers.handleCanvasPaste,
     handleCanvasDragOver: pasteHandlers.handleCanvasDragOver,

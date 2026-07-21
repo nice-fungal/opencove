@@ -108,34 +108,10 @@ export const enSettingsPanel = {
   },
   agentExecutable: enSettingsPanelAgentExecutable,
   quickMenu: {
-    title: 'Quick Commands & Phrases',
+    title: 'Quick Phrases',
     customize: 'Customize…',
     edit: 'Edit',
     invalidForm: 'Please fill out all required fields.',
-    commands: {
-      title: 'Quick Commands',
-      help: 'Add custom terminal commands or URLs to the workspace context menu. Pinned commands show directly in the root menu.',
-      add: 'Add Quick Command',
-      createTitle: 'Create Quick Command',
-      editTitle: 'Edit Quick Command',
-      editorHelp: 'Commands run in a new terminal node. URLs open in a new website node.',
-      titleLabel: 'Title',
-      titlePlaceholder: 'Name your command…',
-      kindLabel: 'Type',
-      kind: {
-        terminal: 'Terminal Command',
-        url: 'Open URL',
-      },
-      commandLabel: 'Command',
-      commandPlaceholder: 'e.g. pnpm test',
-      urlLabel: 'URL',
-      urlPlaceholder: 'https://example.com',
-      enabled: 'Enabled',
-      enabledHelp: 'Controls whether this command appears in the workspace context menu.',
-      pinned: 'Pinned',
-      pinnedHelp:
-        'Pinned commands show directly in the root context menu (above the Quick Commands submenu).',
-    },
     phrases: {
       title: 'Quick Phrases',
       help: 'Insert common phrases into the currently focused input field from context menus.',
@@ -359,10 +335,6 @@ export const enSettingsPanel = {
       workspaceCanvasCreateNote: {
         title: 'Create Note',
         help: 'Create a note from the visual center of the root canvas.',
-      },
-      workspaceCanvasCreateTerminal: {
-        title: 'Create Terminal',
-        help: 'Create a terminal from the visual center of the root canvas.',
       },
       workspaceCanvasCycleSpacesForward: {
         title: 'Next Space',

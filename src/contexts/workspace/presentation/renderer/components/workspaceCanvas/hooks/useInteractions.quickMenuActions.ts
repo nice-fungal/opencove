@@ -1,10 +1,6 @@
 import { useCallback } from 'react'
-import type { QuickCommand, QuickPhrase } from '@contexts/settings/domain/agentSettings'
-import {
-  createNoteNodeAtFlowPosition,
-  createTerminalNodeAtFlowPosition,
-  createWebsiteNodeAtFlowPosition,
-} from './useInteractions.paneNodeCreation'
+import type { QuickPhrase } from '@contexts/settings/domain/agentSettings'
+import { createNoteNodeAtFlowPosition } from './useInteractions.paneNodeCreation'
 import type { UseWorkspaceCanvasInteractionsParams } from './useInteractions.types'
 
 export function useWorkspaceCanvasQuickMenuActions(
@@ -12,125 +8,26 @@ export function useWorkspaceCanvasQuickMenuActions(
     UseWorkspaceCanvasInteractionsParams,
     | 'contextMenu'
     | 'setContextMenu'
-    | 'workspaceId'
-    | 'websiteWindowsEnabled'
     | 'standardWindowSizeBucket'
-    | 'browserDefaultMode'
-    | 'createWebsiteNode'
     | 'createNoteNode'
     | 'spacesRef'
     | 'nodesRef'
     | 'setNodes'
     | 'onSpacesChange'
-    | 'defaultTerminalProfileId'
-    | 'terminalFontSize'
-    | 'terminalDisplayMetrics'
-    | 'workspacePath'
-    | 'createNodeForSession'
-    | 'onShowMessage'
   >,
 ): {
-  runQuickCommand: (command: QuickCommand) => Promise<void>
   insertQuickPhrase: (phrase: QuickPhrase) => void
 } {
   const {
     contextMenu,
     setContextMenu,
-    workspaceId,
-    websiteWindowsEnabled,
     standardWindowSizeBucket,
-    browserDefaultMode,
-    createWebsiteNode,
     createNoteNode,
     spacesRef,
     nodesRef,
     setNodes,
     onSpacesChange,
-    defaultTerminalProfileId,
-    terminalFontSize,
-    terminalDisplayMetrics,
-    workspacePath,
-    createNodeForSession,
-    onShowMessage,
   } = options
-
-  const runQuickCommand = useCallback(
-    async (command: QuickCommand): Promise<void> => {
-      if (!contextMenu || contextMenu.kind !== 'pane') {
-        return
-      }
-
-      setContextMenu(null)
-
-      const anchor = { x: contextMenu.flowX, y: contextMenu.flowY }
-
-      if (command.kind === 'url') {
-        if (!websiteWindowsEnabled) {
-          return
-        }
-
-        createWebsiteNodeAtFlowPosition({
-          anchor,
-          standardWindowSizeBucket,
-          browserDefaultMode,
-          url: command.url,
-          createWebsiteNode,
-          spacesRef,
-          nodesRef,
-          setNodes,
-          onSpacesChange,
-        })
-
-        return
-      }
-
-      const created = await createTerminalNodeAtFlowPosition({
-        anchor,
-        workspaceId,
-        defaultTerminalProfileId,
-        terminalFontSize,
-        terminalDisplayMetrics,
-        standardWindowSizeBucket,
-        workspacePath,
-        spacesRef,
-        nodesRef,
-        setNodes,
-        onSpacesChange,
-        createNodeForSession,
-        onShowMessage,
-        title: command.title,
-      })
-
-      if (!created) {
-        return
-      }
-
-      const data = command.command.endsWith('\n') ? command.command : `${command.command}\n`
-      await window.opencoveApi.pty.write({
-        sessionId: created.sessionId,
-        data,
-      })
-    },
-    [
-      contextMenu,
-      createNodeForSession,
-      createWebsiteNode,
-      defaultTerminalProfileId,
-      terminalFontSize,
-      terminalDisplayMetrics,
-      nodesRef,
-      onSpacesChange,
-      onShowMessage,
-      setContextMenu,
-      setNodes,
-      spacesRef,
-      standardWindowSizeBucket,
-      browserDefaultMode,
-      websiteWindowsEnabled,
-      workspacePath,
-      workspaceId,
-    ],
-  )
 
   const insertQuickPhrase = useCallback(
     (phrase: QuickPhrase): void => {
@@ -185,5 +82,5 @@ export function useWorkspaceCanvasQuickMenuActions(
     ],
   )
 
-  return { runQuickCommand, insertQuickPhrase }
+  return { insertQuickPhrase }
 }

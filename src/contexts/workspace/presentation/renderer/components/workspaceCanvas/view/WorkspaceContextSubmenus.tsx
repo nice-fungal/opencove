@@ -2,7 +2,6 @@ import React from 'react'
 import type {
   AgentProvider,
   ProjectRoleDefinition,
-  QuickCommand,
   QuickPhrase,
 } from '@contexts/settings/domain/agentSettings'
 import type { NodeLabelColorOverride } from '@shared/types/labelColor'
@@ -21,10 +20,7 @@ import {
   WorkspaceContextLabelColorSubmenu,
 } from './WorkspaceContextMenuParts'
 import type { OpenSubmenu } from './WorkspaceContextMenu.types'
-import {
-  WorkspaceContextQuickCommandsSubmenu,
-  WorkspaceContextQuickPhrasesSubmenu,
-} from './WorkspaceContextMenuQuickMenuParts'
+import { WorkspaceContextQuickPhrasesSubmenu } from './WorkspaceContextMenuQuickMenuParts'
 import { WorkspaceContextProjectRolesSubmenu } from './WorkspaceContextRoleMenuParts'
 
 export function WorkspaceContextSubmenus({
@@ -45,18 +41,15 @@ export function WorkspaceContextSubmenus({
   handleArrangeSpaceFitSelect,
   handleArrangePreserveWindowSizesSelect,
   sortedInstalledProviders,
-  enabledQuickCommands,
   enabledQuickPhrases,
   projectRoles,
   openRoleCreator,
   keepAgentProviderSubmenuOpen,
-  keepQuickCommandsSubmenuOpen,
   keepQuickPhrasesSubmenuOpen,
   keepProjectRolesSubmenuOpen,
   keepLabelColorSubmenuOpen,
   scheduleSubmenuClose,
   openAgentLauncherForProvider,
-  runQuickCommand,
   insertQuickPhrase,
   openQuickMenuSettings,
   closeContextMenu,
@@ -83,18 +76,15 @@ export function WorkspaceContextSubmenus({
   handleArrangeSpaceFitSelect: (fit: WorkspaceArrangeSpaceFit) => void
   handleArrangePreserveWindowSizesSelect: (enabled: boolean) => void
   sortedInstalledProviders: AgentProvider[]
-  enabledQuickCommands: QuickCommand[]
   enabledQuickPhrases: QuickPhrase[]
   projectRoles: ProjectRoleDefinition[]
   openRoleCreator: () => void
   keepAgentProviderSubmenuOpen: () => void
-  keepQuickCommandsSubmenuOpen: () => void
   keepQuickPhrasesSubmenuOpen: () => void
   keepProjectRolesSubmenuOpen: () => void
   keepLabelColorSubmenuOpen: () => void
   scheduleSubmenuClose: () => void
   openAgentLauncherForProvider: (provider: AgentProvider) => void
-  runQuickCommand: (command: QuickCommand) => Promise<void>
   insertQuickPhrase: (phrase: QuickPhrase) => void
   openQuickMenuSettings: () => void
   closeContextMenu: () => void
@@ -109,8 +99,6 @@ export function WorkspaceContextSubmenus({
     contextMenu.kind === 'pane' &&
     openSubmenu === 'agent-providers' &&
     sortedInstalledProviders.length > 0
-  const shouldShowQuickCommandsSubmenu =
-    contextMenu.kind === 'pane' && openSubmenu === 'quick-commands'
   const shouldShowQuickPhrasesSubmenu =
     contextMenu.kind === 'pane' && openSubmenu === 'quick-phrases'
   const shouldShowProjectRolesSubmenu =
@@ -147,22 +135,6 @@ export function WorkspaceContextSubmenus({
           keepSubmenuOpen={keepAgentProviderSubmenuOpen}
           scheduleSubmenuClose={scheduleSubmenuClose}
           openAgentLauncherForProvider={openAgentLauncherForProvider}
-        />
-      ) : null}
-
-      {shouldShowQuickCommandsSubmenu ? (
-        <WorkspaceContextQuickCommandsSubmenu
-          commands={enabledQuickCommands}
-          submenuRef={submenuRef}
-          style={sharedSubmenuStyle}
-          keepSubmenuOpen={keepQuickCommandsSubmenuOpen}
-          scheduleSubmenuClose={scheduleSubmenuClose}
-          runQuickCommand={runQuickCommand}
-          openQuickMenuSettings={() => {
-            closeContextMenu()
-            setOpenSubmenu(null)
-            openQuickMenuSettings()
-          }}
         />
       ) : null}
 

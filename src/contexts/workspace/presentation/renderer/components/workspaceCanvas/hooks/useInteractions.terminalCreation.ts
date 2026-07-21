@@ -14,7 +14,6 @@ type SetNodes = (
 ) => void
 
 export function useWorkspaceCanvasTerminalCreation({
-  contextMenu,
   setContextMenu,
   workspaceId,
   spacesRef,
@@ -30,7 +29,6 @@ export function useWorkspaceCanvasTerminalCreation({
   onSpacesChange,
   onShowMessage,
 }: {
-  contextMenu: ContextMenuState | null
   setContextMenu: (next: ContextMenuState | null) => void
   workspaceId: string
   spacesRef: MutableRefObject<WorkspaceSpaceState[]>
@@ -45,7 +43,7 @@ export function useWorkspaceCanvasTerminalCreation({
   setNodes: SetNodes
   onSpacesChange: (spaces: WorkspaceSpaceState[]) => void
   onShowMessage?: (message: string, level: 'info' | 'warning' | 'error') => void
-}): () => Promise<void> {
+}): void {
   const createTerminalAtFlowPoint = useCallback(
     async (anchor: Point) => {
       setContextMenu(null)
@@ -85,7 +83,8 @@ export function useWorkspaceCanvasTerminalCreation({
   )
 
   useLayoutEffect(() => {
-    if (window.opencoveApi?.meta?.isTest !== true) {
+    const meta = window.opencoveApi?.meta
+    if (meta?.isTest !== true && meta?.enableTerminalTestApi !== true) {
       return
     }
 
@@ -94,15 +93,4 @@ export function useWorkspaceCanvasTerminalCreation({
       bindWorkspaceCanvasCreateTerminalAtFlowPointTestAction(null)
     }
   }, [createTerminalAtFlowPoint])
-
-  return useCallback(async () => {
-    if (!contextMenu || contextMenu.kind !== 'pane') {
-      return
-    }
-
-    await createTerminalAtFlowPoint({
-      x: contextMenu.flowX,
-      y: contextMenu.flowY,
-    })
-  }, [contextMenu, createTerminalAtFlowPoint])
 }

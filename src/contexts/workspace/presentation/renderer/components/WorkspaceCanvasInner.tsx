@@ -230,10 +230,8 @@ export function WorkspaceCanvasInner({
     handleCanvasPointerUpCapture,
     handleCanvasDoubleClickCapture,
     handlePaneClick,
-    createTerminalNode,
     createNoteNodeFromContextMenu,
     createWebsiteNodeFromContextMenu,
-    runQuickCommand,
     insertQuickPhrase,
     handleCanvasPaste,
     handleCanvasDragOver,
@@ -277,12 +275,9 @@ export function WorkspaceCanvasInner({
   })
   workspaceCanvasHooks.useWorkspaceCanvasShortcutActions({
     enabled: shortcutsEnabled,
-    workspaceId,
     activeSpaceId,
     spaces,
     agentSettings,
-    workspacePath,
-    environmentVariables,
     canvasRef: canvasState.canvasRef,
     setContextMenu: canvasState.setContextMenu,
     setEmptySelectionPrompt: canvasState.setEmptySelectionPrompt,
@@ -297,14 +292,11 @@ export function WorkspaceCanvasInner({
     selectedNodeIdsRef: canvasState.selectedNodeIdsRef,
     selectedSpaceIdsRef: canvasState.selectedSpaceIdsRef,
     onSpacesChange,
-    createNodeForSession: nodeStore.createNodeForSession,
     createNoteNode: nodeStore.createNoteNode,
     createSpaceFromSelectedNodes: spacesApi.createSpaceFromSelectedNodes,
     activateSpace: spacesApi.activateSpace,
     setActiveSpaceIdFromNodeNavigation: spacesApi.setActiveSpaceIdFromNodeNavigation,
     clearNodeSelection,
-    onShowMessage,
-    terminalDisplayMetrics,
   })
   workspaceCanvasHooks.useWorkspaceCanvasRuntimeBindings({
     setNodes: nodeStore.setNodes,
@@ -437,7 +429,6 @@ export function WorkspaceCanvasInner({
       contextMenu={canvasState.contextMenu}
       magneticSnappingEnabled={canvasState.magneticSnappingEnabled}
       onToggleMagneticSnapping={() => canvasState.setMagneticSnappingEnabled(enabled => !enabled)}
-      createTerminalNode={createTerminalNode}
       createNoteNodeFromContextMenu={createNoteNodeFromContextMenu}
       createWebsiteNodeFromContextMenu={createWebsiteNodeFromContextMenu}
       arrangeAll={arrangeAll}
@@ -446,7 +437,6 @@ export function WorkspaceCanvasInner({
       openTaskCreator={openTaskCreator}
       openAgentLauncher={agentSupport.openAgentLauncher}
       openAgentLauncherForProvider={agentSupport.openAgentLauncherForProvider}
-      runQuickCommand={runQuickCommand}
       insertQuickPhrase={insertQuickPhrase}
       openQuickMenuSettings={openQuickMenuSettings}
       createSpaceFromSelectedNodes={spacesApi.createSpaceFromSelectedNodes}
