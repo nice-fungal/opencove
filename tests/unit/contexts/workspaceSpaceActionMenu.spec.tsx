@@ -208,22 +208,20 @@ describe('WorkspaceSpaceActionMenu', () => {
       <WorkspaceSpaceActionMenu
         menu={{ spaceId: 'space-1', x: 120, y: 80 }}
         availableOpeners={[]}
-        canCreateWorktree
         canArchive
         closeMenu={() => undefined}
         setSpaceLabelColor={() => undefined}
-        onCreateWorktree={onCreateWorktree}
-        onArchive={() => undefined}
+        onArchive={onArchive}
         onCopyPath={() => undefined}
         onOpenPath={() => undefined}
       />,
     )
 
-    expect(screen.getByTestId('workspace-space-action-create')).toBeVisible()
     expect(screen.getByTestId('workspace-space-action-archive')).toBeVisible()
+    expect(screen.getByTestId('workspace-space-action-copy-path')).toBeVisible()
 
-    const createButton = screen.getByTestId('workspace-space-action-create')
-    vi.spyOn(createButton, 'getBoundingClientRect').mockReturnValue({
+    const archiveButton = screen.getByTestId('workspace-space-action-archive')
+    vi.spyOn(archiveButton, 'getBoundingClientRect').mockReturnValue({
       x: 120,
       y: 80,
       left: 120,
@@ -234,9 +232,9 @@ describe('WorkspaceSpaceActionMenu', () => {
       height: 30,
       toJSON: () => ({}),
     })
-    fireEvent.click(createButton)
+    fireEvent.click(archiveButton)
 
-    expect(onCreateWorktree).toHaveBeenCalledWith({ x: 120, y: 80 })
+    expect(onArchive).toHaveBeenCalledWith({ x: 120, y: 80 })
   })
 
   it('toggles the preserve window sizes setting', () => {
@@ -245,14 +243,12 @@ describe('WorkspaceSpaceActionMenu', () => {
       <WorkspaceSpaceActionMenu
         menu={{ spaceId: 'space-1', x: 120, y: 80 }}
         availableOpeners={[]}
-        canCreateWorktree={false}
         canArchive={false}
         preserveWindowSizes={false}
         onChangePreserveWindowSizes={onChangePreserveWindowSizes}
         closeMenu={() => undefined}
         setSpaceLabelColor={() => undefined}
         onArrange={() => undefined}
-        onCreateWorktree={() => undefined}
         onArchive={() => undefined}
         onCopyPath={() => undefined}
         onOpenPath={() => undefined}
@@ -273,12 +269,10 @@ describe('WorkspaceSpaceActionMenu', () => {
           { id: 'terminal', label: 'Terminal' },
         ]}
         canArrange
-        canCreateWorktree
         canArchive
         closeMenu={() => undefined}
         setSpaceLabelColor={() => undefined}
         onArrange={() => undefined}
-        onCreateWorktree={() => undefined}
         onArchive={() => undefined}
         onCopyPath={() => undefined}
         onOpenPath={() => undefined}

@@ -215,22 +215,18 @@ describe('control surface full-state mutation races', () => {
     },
   )
 
-  it.each(['worktree.create', 'worktree.archive'])(
+  it.each(['worktree.archive'])(
     'does not replay %s or overwrite a concurrent node after Git completes',
     async id => {
       const f = fixture()
       if (id === 'worktree.archive') {
         f.state().workspaces[0].spaces[0].directoryPath = '/worktrees/feature'
       }
-      const createWorktree = vi.fn(async () => {
-        f.advance()
-        return { path: '/worktrees/feature', branch: 'feature', head: null }
-      })
       const removeWorktree = vi.fn(async () => {
         f.advance()
         return { deletedBranchName: null, branchDeleteError: null, directoryCleanupError: null }
       })
-      const port = { createWorktree, removeWorktree } as unknown as GitWorktreePort
+      const port = { removeWorktree } as unknown as GitWorktreePort
       const control = createControlSurface()
       registerWorktreeHandlers(control, {
         getPersistenceStore: async () => f.persistence,
@@ -246,8 +242,7 @@ describe('control surface full-state mutation races', () => {
         payload: { spaceId: 'space' },
       })
       expect(result).toMatchObject({ ok: false, error: { code: 'persistence.invalid_state' } })
-      expect(createWorktree).toHaveBeenCalledTimes(id === 'worktree.create' ? 1 : 0)
-      expect(removeWorktree).toHaveBeenCalledTimes(id === 'worktree.archive' ? 1 : 0)
+      expect(removeWorktree).toHaveBeenCalledOnce()
       expectPreserved(f)
     },
   )

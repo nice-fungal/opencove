@@ -21,7 +21,6 @@ export function AppSettingsPage({
   updateState,
   modelCatalogByProvider,
   workspaces,
-  onWorkspaceWorktreesRootChange,
   onWorkspaceEnvironmentVariablesChange,
   isFocusNodeTargetZoomPreviewing,
   onFocusNodeTargetZoomPreviewChange,
@@ -38,7 +37,6 @@ export function AppSettingsPage({
   updateState: AppUpdateState | null
   modelCatalogByProvider: Record<AgentProvider, ProviderModelCatalogEntry>
   workspaces: WorkspaceState[]
-  onWorkspaceWorktreesRootChange: (workspaceId: string, worktreesRoot: string) => void
   onWorkspaceEnvironmentVariablesChange: (
     workspaceId: string,
     environmentVariables: Record<string, string>,
@@ -61,7 +59,6 @@ export function AppSettingsPage({
           updateState={updateState}
           modelCatalogByProvider={modelCatalogByProvider}
           workspaces={workspaces}
-          onWorkspaceWorktreesRootChange={onWorkspaceWorktreesRootChange}
           onWorkspaceEnvironmentVariablesChange={onWorkspaceEnvironmentVariablesChange}
           isFocusNodeTargetZoomPreviewing={isFocusNodeTargetZoomPreviewing}
           onFocusNodeTargetZoomPreviewChange={onFocusNodeTargetZoomPreviewChange}

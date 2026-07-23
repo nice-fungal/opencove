@@ -21,7 +21,6 @@ export function useWorkspaceStateHandlers({
   handleWorkspaceActiveSpaceChange: (spaceId: string | null) => void
   handleWorkspaceSpaceArchiveRecordAppend: (record: SpaceArchiveRecord) => void
   handleWorkspaceSpaceArchiveRecordRemove: (recordId: string) => void
-  handleAnyWorkspaceWorktreesRootChange: (workspaceId: string, worktreesRoot: string) => void
   handleAnyWorkspaceEnvironmentVariablesChange: (
     workspaceId: string,
     environmentVariables: Record<string, string>,
@@ -243,28 +242,6 @@ export function useWorkspaceStateHandlers({
     [requestPersistFlush],
   )
 
-  const handleAnyWorkspaceWorktreesRootChange = useCallback(
-    (workspaceId: string, worktreesRoot: string): void => {
-      const { setWorkspaces: updateWorkspaces } = useAppStore.getState()
-      updateWorkspaces(previous =>
-        previous.map(workspace => {
-          if (workspace.id !== workspaceId) {
-            return workspace
-          }
-          if (workspace.worktreesRoot === worktreesRoot) {
-            return workspace
-          }
-          return {
-            ...workspace,
-            worktreesRoot,
-          }
-        }),
-      )
-      requestPersistFlush()
-    },
-    [requestPersistFlush],
-  )
-
   const handleAnyWorkspaceEnvironmentVariablesChange = useCallback(
     (workspaceId: string, environmentVariables: Record<string, string>): void => {
       const { setWorkspaces: updateWorkspaces } = useAppStore.getState()
@@ -289,7 +266,6 @@ export function useWorkspaceStateHandlers({
     handleWorkspaceActiveSpaceChange,
     handleWorkspaceSpaceArchiveRecordAppend,
     handleWorkspaceSpaceArchiveRecordRemove,
-    handleAnyWorkspaceWorktreesRootChange,
     handleAnyWorkspaceEnvironmentVariablesChange,
   }
 }

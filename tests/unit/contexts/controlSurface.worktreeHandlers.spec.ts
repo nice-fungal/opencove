@@ -39,6 +39,24 @@ function createStubStore(state: unknown) {
 }
 
 describe('control surface worktree handlers', () => {
+  it('registers with the default Git port without invoking deleted creation validation', async () => {
+    const controlSurface = createControlSurface()
+    const { store } = createStubStore(null)
+    registerWorktreeHandlers(controlSurface, {
+      approvedWorkspaces: {
+        registerRoot: async () => undefined,
+        isPathApproved: async () => true,
+      },
+      getPersistenceStore: async () => store,
+    })
+    const result = await controlSurface.invoke(ctx, {
+      kind: 'command',
+      id: 'worktree.create',
+      payload: { spaceId: 'space' },
+    })
+    expect(result).toMatchObject({ ok: false, error: { code: 'common.invalid_input' } })
+  })
+
   it('lists worktrees for a project', async () => {
     const appState = {
       formatVersion: 1,
@@ -112,7 +130,7 @@ describe('control surface worktree handlers', () => {
     }
   })
 
-  it('creates a worktree and updates the bound space directory', async () => {
+  it('does not register the removed worktree.create command', async () => {
     const appState = {
       formatVersion: 1,
       activeWorkspaceId: 'ws1',
@@ -142,15 +160,12 @@ describe('control surface worktree handlers', () => {
       settings: {},
     }
 
-    const { store, getWrittenState } = createStubStore(appState)
-    const registerRootCalls: string[] = []
+    const { store } = createStubStore(appState)
 
     const controlSurface = createControlSurface()
     registerWorktreeHandlers(controlSurface, {
       approvedWorkspaces: {
-        registerRoot: async rootPath => {
-          registerRootCalls.push(rootPath)
-        },
+        registerRoot: async () => undefined,
         isPathApproved: async () => true,
       },
       getPersistenceStore: async () => store,
@@ -185,26 +200,10 @@ describe('control surface worktree handlers', () => {
       payload: { spaceId: 's1', name: 'feature-a' },
     })
 
-    expect(result.ok).toBe(true)
-    if (result.ok) {
-      expect(result.value.spaceDirectoryPath).toBe('/worktrees/wt1')
-      expect(result.value.spaceName).toBe('feature-a')
-    }
-
-    const written = getWrittenState() as unknown as {
-      workspaces: Array<{
-        spaces: Array<{
-          directoryPath: string
-          name: string
-        }>
-      }>
-    }
-    expect(written.workspaces[0].spaces[0].directoryPath).toBe('/worktrees/wt1')
-    expect(written.workspaces[0].spaces[0].name).toBe('feature-a')
-    expect(registerRootCalls).toEqual(['/worktrees/wt1'])
+    expect(result).toMatchObject({ ok: false, error: { code: 'common.invalid_input' } })
   })
 
-  it('registers a mount-created worktree path as an approved root', async () => {
+  it('rejects the removed mount worktree creation command', async () => {
     const registerRootCalls: string[] = []
     const controlSurface = createControlSurface()
     registerGitWorktreeMountHandlers(controlSurface, {
@@ -258,11 +257,11 @@ describe('control surface worktree handlers', () => {
       },
     })
 
-    expect(result.ok).toBe(true)
-    expect(registerRootCalls).toEqual(['/external/worktrees/wt1'])
+    expect(result).toMatchObject({ ok: false, error: { code: 'common.invalid_input' } })
+    expect(registerRootCalls).toEqual([])
   })
 
-  it('rejects invalid payloads', async () => {
+  it('does not register worktree.create regardless of payload', async () => {
     const { store } = createStubStore({
       formatVersion: 1,
       activeWorkspaceId: null,

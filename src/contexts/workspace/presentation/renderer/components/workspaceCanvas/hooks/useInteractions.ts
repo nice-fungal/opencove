@@ -411,7 +411,6 @@ export function useWorkspaceCanvasInteractions({
     websiteWindowsEnabled,
   })
   const { insertQuickPhrase } = useWorkspaceCanvasQuickMenuActions({
-    workspaceId,
     contextMenu,
     setContextMenu,
     standardWindowSizeBucket,

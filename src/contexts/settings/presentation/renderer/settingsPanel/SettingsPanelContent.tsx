@@ -30,7 +30,6 @@ type Props = Pick<
   | 'settings'
   | 'updateState'
   | 'modelCatalogByProvider'
-  | 'onWorkspaceWorktreesRootChange'
   | 'onWorkspaceEnvironmentVariablesChange'
   | 'onFocusNodeTargetZoomPreviewChange'
   | 'onCheckForUpdates'
@@ -49,7 +48,6 @@ export function SettingsPanelContent({
   settings,
   updateState,
   modelCatalogByProvider,
-  onWorkspaceWorktreesRootChange,
   onWorkspaceEnvironmentVariablesChange,
   onFocusNodeTargetZoomPreviewChange,
   onCheckForUpdates,
@@ -331,8 +329,6 @@ export function SettingsPanelContent({
           sectionId={`settings-section-workspace-${activeWorkspace.id}`}
           workspaceName={activeWorkspace.name}
           workspacePath={activeWorkspace.path}
-          worktreesRoot={activeWorkspace.worktreesRoot}
-          onChangeWorktreesRoot={root => onWorkspaceWorktreesRootChange(activeWorkspace.id, root)}
           environmentVariables={activeWorkspace.environmentVariables ?? {}}
           onChangeEnvironmentVariables={envVars =>
             onWorkspaceEnvironmentVariablesChange(activeWorkspace.id, envVars)

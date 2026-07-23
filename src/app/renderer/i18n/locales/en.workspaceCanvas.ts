@@ -75,7 +75,6 @@ export const enWorkspaceCanvas = {
   },
   spaceActions: {
     arrangeInSpace: 'Arrange in Space',
-    createWorktree: 'Create Worktree',
     archive: 'Archive',
     copyPath: 'Copy Path',
     files: 'Files',

@@ -96,7 +96,7 @@ describe('settingsPageRegistry', () => {
       ),
     ).toEqual({
       endpoints: 'settings-section-endpoints',
-      'quick-menu': 'settings-section-quick-commands',
+      'quick-menu': 'settings-section-quick-phrases',
       shortcuts: 'settings-section-shortcuts',
       'task-configuration': 'settings-section-task-configuration',
       notifications: 'settings-section-notifications',

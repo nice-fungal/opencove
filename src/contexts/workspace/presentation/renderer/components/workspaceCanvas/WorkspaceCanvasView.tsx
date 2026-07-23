@@ -169,7 +169,6 @@ export function WorkspaceCanvasView({
   openSpacePath,
   spaceWorktreeOperations,
   worktreesRoot,
-  openSpaceCreateWorktree,
   openSpaceArchive,
   closeSpaceWorktree,
   setSpaceWorktreeOperationPhase,
@@ -196,18 +195,12 @@ export function WorkspaceCanvasView({
 
   const { snapViewport } = useViewportDprSnapping(canvasRef)
 
-  const {
-    activeMenuSpace,
-    canCreateWorktreeForActiveMenuSpace,
-    canArrangeCanvas,
-    canArrangeAll,
-    canArrangeActiveSpace,
-  } = useWorkspaceCanvasSpaceMenuState({
-    spaceActionMenu,
-    spaces,
-    workspacePath,
-    nodes,
-  })
+  const { activeMenuSpace, canArrangeCanvas, canArrangeAll, canArrangeActiveSpace } =
+    useWorkspaceCanvasSpaceMenuState({
+      spaceActionMenu,
+      spaces,
+      nodes,
+    })
 
   const activeExplorerSpace = useActiveExplorerSpace(openExplorerSpaceId, spaces, spaceFramePreview)
 
@@ -418,10 +411,8 @@ export function WorkspaceCanvasView({
         spaceActionMenu={spaceActionMenu}
         availablePathOpeners={availablePathOpeners}
         activeMenuSpace={activeMenuSpace}
-        canCreateWorktreeForActiveMenuSpace={canCreateWorktreeForActiveMenuSpace}
         closeSpaceActionMenu={closeSpaceActionMenu}
         setSpaceLabelColor={setSpaceLabelColor}
-        openSpaceCreateWorktree={openSpaceCreateWorktree}
         openSpaceArchive={openSpaceArchive}
         copySpacePath={copySpacePath}
         openSpacePath={openSpacePath}
