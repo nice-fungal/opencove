@@ -47,7 +47,6 @@ export function printUsage() {
   )
   process.stdout.write(`  opencove pty attach --session <id>\n\n`)
   process.stdout.write(`  opencove worktree list [--project <id>] [--pretty]\n`)
-  process.stdout.write(`  opencove worktree create --space <id> [--name <branch>] [--pretty]\n`)
   process.stdout.write(
     `  opencove worktree archive --space <id> [--force] [--delete-branch] [--pretty]\n\n`,
   )

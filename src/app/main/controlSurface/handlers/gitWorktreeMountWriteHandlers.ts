@@ -3,15 +3,10 @@ import type { ApprovedWorkspaceStore } from '../../../../contexts/workspace/infr
 import type { WorkerTopologyStore } from '../topology/topologyStore'
 import type { GitWorktreePort } from '../../../../contexts/worktree/application/ports'
 import {
-  createGitWorktreeUseCase,
   removeGitWorktreeUseCase,
   renameGitBranchUseCase,
 } from '../../../../contexts/worktree/application/usecases'
-import type {
-  CreateGitWorktreeBranchMode,
-  CreateGitWorktreeResult,
-  RemoveGitWorktreeResult,
-} from '../../../../shared/contracts/dto'
+import type { RemoveGitWorktreeResult } from '../../../../shared/contracts/dto'
 import { createAppError } from '../../../../shared/errors/appError'
 import {
   assertFileUriWithinMountRoot,
@@ -47,41 +42,6 @@ function normalizeRequiredString(value: unknown, debugName: string): string {
   return normalized
 }
 
-function normalizeBranchMode(value: unknown, operationId: string): CreateGitWorktreeBranchMode {
-  if (!isRecord(value)) {
-    throw createAppError('common.invalid_input', {
-      debugMessage: `Invalid payload for ${operationId} branchMode.`,
-    })
-  }
-
-  const kind = normalizeOptionalString(value.kind)
-  if (kind !== 'new' && kind !== 'existing') {
-    throw createAppError('common.invalid_input', {
-      debugMessage: `Invalid payload for ${operationId} branchMode.kind.`,
-    })
-  }
-
-  const name = normalizeOptionalString(value.name)
-  if (!name) {
-    throw createAppError('common.invalid_input', {
-      debugMessage: `Invalid payload for ${operationId} branchMode.name.`,
-    })
-  }
-
-  if (kind === 'existing') {
-    return { kind: 'existing', name }
-  }
-
-  const startPoint = normalizeOptionalString(value.startPoint)
-  if (!startPoint) {
-    throw createAppError('common.invalid_input', {
-      debugMessage: `Invalid payload for ${operationId} branchMode.startPoint.`,
-    })
-  }
-
-  return { kind: 'new', name, startPoint }
-}
-
 function resolvePathFromUriOrThrow(uri: string, operationId: string): string {
   const resolved = fromFileUri(uri)
   if (!resolved) {
@@ -101,76 +61,6 @@ export function registerGitWorktreeMountWriteHandlers(
     gitWorktreePort: GitWorktreePort
   },
 ): void {
-  controlSurface.register('gitWorktree.createInMount', {
-    kind: 'command',
-    validate: (
-      payload: unknown,
-    ): { mountId: string; worktreesRootUri: string; branchMode: CreateGitWorktreeBranchMode } => {
-      if (!isRecord(payload)) {
-        throw createAppError('common.invalid_input', {
-          debugMessage: 'Invalid payload for gitWorktree.createInMount.',
-        })
-      }
-
-      return {
-        mountId: normalizeMountId(payload.mountId, 'gitWorktree.createInMount'),
-        worktreesRootUri: normalizeFileSystemUri(
-          payload.worktreesRootUri,
-          'gitWorktree.createInMount.worktreesRootUri',
-        ),
-        branchMode: normalizeBranchMode(payload.branchMode, 'gitWorktree.createInMount'),
-      }
-    },
-    handle: async (_ctx, payload): Promise<CreateGitWorktreeResult> => {
-      const target = await resolveMountTargetOrThrow({
-        topology: deps.topology,
-        mountId: payload.mountId,
-      })
-
-      assertFileUriWithinMountRoot({
-        target,
-        uri: payload.worktreesRootUri,
-        debugMessage: 'gitWorktree.createInMount worktreesRootUri is outside mount root',
-      })
-
-      const worktreesRoot = resolvePathFromUriOrThrow(
-        payload.worktreesRootUri,
-        'gitWorktree.createInMount worktreesRootUri',
-      )
-      const repoPath = target.rootPath
-
-      if (target.endpointId === 'local') {
-        const [repoApproved, worktreesRootApproved] = await Promise.all([
-          deps.approvedWorkspaces.isPathApproved(repoPath),
-          deps.approvedWorkspaces.isPathApproved(worktreesRoot),
-        ])
-
-        if (!repoApproved || !worktreesRootApproved) {
-          throw createAppError('common.approved_path_required', {
-            debugMessage: 'gitWorktree.createInMount path is outside approved roots',
-          })
-        }
-
-        const created = await createGitWorktreeUseCase(deps.gitWorktreePort, {
-          repoPath,
-          worktreesRoot,
-          branchMode: payload.branchMode,
-        })
-        await deps.approvedWorkspaces.registerRoot(created.worktree.path)
-        return created
-      }
-
-      return await invokeRemoteValue<CreateGitWorktreeResult>({
-        topology: deps.topology,
-        endpointId: target.endpointId,
-        kind: 'command',
-        id: 'gitWorktree.create',
-        payload: { repoPath, worktreesRoot, branchMode: payload.branchMode },
-      })
-    },
-    defaultErrorCode: 'worktree.create_failed',
-  })
-
   controlSurface.register('gitWorktree.removeInMount', {
     kind: 'command',
     validate: (

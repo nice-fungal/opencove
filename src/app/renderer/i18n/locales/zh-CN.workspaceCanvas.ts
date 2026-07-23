@@ -59,7 +59,6 @@ export const zhCNWorkspaceCanvas = {
   },
   spaceActions: {
     arrangeInSpace: '整理 Space 内',
-    createWorktree: '创建 Worktree',
     archive: '归档',
     copyPath: '复制路径',
     files: '文件',

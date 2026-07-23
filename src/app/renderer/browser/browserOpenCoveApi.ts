@@ -318,12 +318,6 @@ export function installBrowserOpenCoveApi(): void {
           id: 'gitWorktree.getDefaultBranch',
           payload,
         }),
-      create: async payload =>
-        await invokeBrowserControlSurface({
-          kind: 'command',
-          id: 'gitWorktree.create',
-          payload,
-        }),
       remove: async payload =>
         await invokeBrowserControlSurface({
           kind: 'command',
