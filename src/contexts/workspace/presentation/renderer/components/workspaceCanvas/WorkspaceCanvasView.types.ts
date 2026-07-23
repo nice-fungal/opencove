@@ -197,7 +197,6 @@ export interface WorkspaceCanvasViewProps {
   openSpacePath: (spaceId: string, openerId: WorkspacePathOpenerId) => Promise<void> | void
   spaceWorktreeOperations: SpaceWorktreeOperationState[]
   worktreesRoot: string
-  openSpaceCreateWorktree: (spaceId: string, anchor: { x: number; y: number }) => void
   openSpaceArchive: (spaceId: string, anchor: { x: number; y: number }) => void
   closeSpaceWorktree: (operationId: string) => void
   setSpaceWorktreeOperationPhase: (operationId: string, phase: SpaceWorktreeOperationPhase) => void

@@ -380,20 +380,6 @@ async function main() {
     return
   }
 
-  if (command === 'worktree' && args[1] === 'create') {
-    const spaceId = requireFlagValue(args, '--space')
-    const name = readFlagValue(args, '--name')
-    const payload = name ? { spaceId, name } : { spaceId }
-
-    await invokeAndPrint(
-      connection,
-      { kind: 'command', id: 'worktree.create', payload },
-      { pretty, timeoutMs },
-    )
-
-    return
-  }
-
   if (command === 'worktree' && args[1] === 'archive') {
     const spaceId = requireFlagValue(args, '--space')
     const force = args.includes('--force')

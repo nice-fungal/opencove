@@ -38,10 +38,8 @@ export function WorkspaceCanvasMenus({
   spaceActionMenu,
   availablePathOpeners,
   activeMenuSpace,
-  canCreateWorktreeForActiveMenuSpace,
   closeSpaceActionMenu,
   setSpaceLabelColor,
-  openSpaceCreateWorktree,
   openSpaceArchive,
   copySpacePath,
   openSpacePath,
@@ -80,14 +78,12 @@ export function WorkspaceCanvasMenus({
   | 'availablePathOpeners'
   | 'closeSpaceActionMenu'
   | 'setSpaceLabelColor'
-  | 'openSpaceCreateWorktree'
   | 'openSpaceArchive'
   | 'copySpacePath'
   | 'openSpacePath'
   | 'agentSettings'
 > & {
   activeMenuSpace: WorkspaceCanvasViewProps['spaces'][number] | null
-  canCreateWorktreeForActiveMenuSpace: boolean
   canArrangeAll: boolean
   canArrangeCanvas: boolean
   canArrangeActiveSpace: boolean
@@ -142,7 +138,6 @@ export function WorkspaceCanvasMenus({
         menu={spaceActionMenu}
         availableOpeners={availablePathOpeners}
         canArrange={canArrangeActiveSpace}
-        canCreateWorktree={canCreateWorktreeForActiveMenuSpace}
         canArchive={activeMenuSpace !== null}
         currentLabelColor={activeMenuSpace?.labelColor ?? null}
         closeMenu={closeSpaceActionMenu}
@@ -150,11 +145,6 @@ export function WorkspaceCanvasMenus({
         preserveWindowSizes={arrangePreserveWindowSizes}
         onChangePreserveWindowSizes={setArrangePreserveWindowSizes}
         onArrange={spaceId => arrangeInSpace(spaceId, arrangeStyle)}
-        onCreateWorktree={anchor => {
-          if (activeMenuSpace) {
-            openSpaceCreateWorktree(activeMenuSpace.id, anchor)
-          }
-        }}
         onArchive={anchor => {
           if (activeMenuSpace) {
             openSpaceArchive(activeMenuSpace.id, anchor)

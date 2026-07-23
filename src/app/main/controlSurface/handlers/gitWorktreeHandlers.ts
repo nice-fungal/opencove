@@ -2,7 +2,6 @@ import type { ControlSurface } from '../controlSurface'
 import type { ApprovedWorkspaceStore } from '../../../../contexts/workspace/infrastructure/approval/ApprovedWorkspaceStoreCore'
 import type { GitWorktreePort } from '../../../../contexts/worktree/application/ports'
 import {
-  createGitWorktreeUseCase,
   getGitDefaultBranchUseCase,
   getGitStatusSummaryUseCase,
   listGitBranchesUseCase,
@@ -23,7 +22,6 @@ import { getGitDefaultBranch } from '../../../../contexts/worktree/infrastructur
 import { suggestWorktreeNames } from '../../../../contexts/worktree/infrastructure/git/WorktreeNameSuggester'
 import { createAppError } from '../../../../shared/errors/appError'
 import {
-  normalizeCreateGitWorktreePayload,
   normalizeGetGitDefaultBranchPayload,
   normalizeGetGitStatusSummaryPayload,
   normalizeListGitBranchesPayload,
@@ -117,26 +115,6 @@ export function registerGitWorktreeHandlers(
       return await getGitDefaultBranchUseCase(gitWorktreePort, payload)
     },
     defaultErrorCode: 'worktree.get_default_branch_failed',
-  })
-
-  controlSurface.register('gitWorktree.create', {
-    kind: 'command',
-    validate: normalizeCreateGitWorktreePayload,
-    handle: async (_ctx, payload) => {
-      const [repoApproved, worktreesRootApproved] = await Promise.all([
-        deps.approvedWorkspaces.isPathApproved(payload.repoPath),
-        deps.approvedWorkspaces.isPathApproved(payload.worktreesRoot),
-      ])
-
-      if (!repoApproved || !worktreesRootApproved) {
-        throw createAppError('common.approved_path_required', {
-          debugMessage: 'gitWorktree.create path is outside approved roots',
-        })
-      }
-
-      return await createGitWorktreeUseCase(gitWorktreePort, payload)
-    },
-    defaultErrorCode: 'worktree.create_failed',
   })
 
   controlSurface.register('gitWorktree.remove', {

@@ -4,17 +4,11 @@ import { describe, expect, it, vi } from 'vitest'
 import { WorkspaceSection } from '../../../src/contexts/settings/presentation/renderer/settingsPanel/WorkspaceSection'
 
 describe('WorkspaceSection', () => {
-  it('renders project worktree root controls with description', () => {
-    const onChangeWorktreesRoot = vi.fn()
-
+  it('renders workspace path display', () => {
     render(
       <WorkspaceSection
         workspaceName="Demo Project"
         workspacePath="/repo/demo"
-        worktreesRoot=".opencove/worktrees"
-        onChangeWorktreesRoot={onChangeWorktreesRoot}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{}}
         onChangeEnvironmentVariables={() => undefined}
       />,
@@ -26,20 +20,6 @@ describe('WorkspaceSection', () => {
       'title',
       '/repo/demo',
     )
-    expect(screen.getByTestId('settings-worktree-root')).toHaveValue('.opencove/worktrees')
-    expect(screen.getByText(/Relative path is based on project root/i)).toBeVisible()
-    expect(screen.getByTestId('settings-resolved-worktree-path-display')).toHaveTextContent(
-      '.../.opencove/worktrees',
-    )
-    expect(screen.getByTestId('settings-resolved-worktree-path-display')).toHaveAttribute(
-      'title',
-      '/repo/demo/.opencove/worktrees',
-    )
-
-    fireEvent.change(screen.getByTestId('settings-worktree-root'), {
-      target: { value: '/tmp/custom-worktrees' },
-    })
-    expect(onChangeWorktreesRoot).toHaveBeenCalledWith('/tmp/custom-worktrees')
   })
 
   it('shows guidance when no project is selected', () => {
@@ -47,17 +27,12 @@ describe('WorkspaceSection', () => {
       <WorkspaceSection
         workspaceName={null}
         workspacePath={null}
-        worktreesRoot=""
-        onChangeWorktreesRoot={() => undefined}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{}}
         onChangeEnvironmentVariables={() => undefined}
       />,
     )
 
     expect(screen.getByText(/Select a project first/i)).toBeVisible()
-    expect(screen.queryByTestId('settings-worktree-root')).not.toBeInTheDocument()
   })
 
   it('renders Runtime Environment section when workspace is selected', () => {
@@ -65,10 +40,6 @@ describe('WorkspaceSection', () => {
       <WorkspaceSection
         workspaceName="Demo"
         workspacePath="/repo/demo"
-        worktreesRoot=""
-        onChangeWorktreesRoot={() => undefined}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{}}
         onChangeEnvironmentVariables={() => undefined}
       />,
@@ -83,10 +54,6 @@ describe('WorkspaceSection', () => {
       <WorkspaceSection
         workspaceName={null}
         workspacePath={null}
-        worktreesRoot=""
-        onChangeWorktreesRoot={() => undefined}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{}}
         onChangeEnvironmentVariables={() => undefined}
       />,
@@ -100,10 +67,6 @@ describe('WorkspaceSection', () => {
       <WorkspaceSection
         workspaceName="Demo"
         workspacePath="/repo/demo"
-        worktreesRoot=""
-        onChangeWorktreesRoot={() => undefined}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{ NODE_ENV: 'production', DEBUG: 'true' }}
         onChangeEnvironmentVariables={() => undefined}
       />,
@@ -121,10 +84,6 @@ describe('WorkspaceSection', () => {
       <WorkspaceSection
         workspaceName="Demo"
         workspacePath="/repo/demo"
-        worktreesRoot=""
-        onChangeWorktreesRoot={() => undefined}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{}}
         onChangeEnvironmentVariables={onChangeEnvironmentVariables}
       />,
@@ -148,10 +107,6 @@ describe('WorkspaceSection', () => {
       <WorkspaceSection
         workspaceName="Demo"
         workspacePath="/repo/demo"
-        worktreesRoot=""
-        onChangeWorktreesRoot={() => undefined}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{ NODE_ENV: 'production', DEBUG: 'true' }}
         onChangeEnvironmentVariables={onChangeEnvironmentVariables}
       />,
@@ -167,10 +122,6 @@ describe('WorkspaceSection', () => {
       <WorkspaceSection
         workspaceName="Demo"
         workspacePath="/repo/demo"
-        worktreesRoot=""
-        onChangeWorktreesRoot={() => undefined}
-        pullRequestBaseBranchOptions={[]}
-        onChangePullRequestBaseBranchOptions={() => undefined}
         environmentVariables={{}}
         onChangeEnvironmentVariables={() => undefined}
       />,

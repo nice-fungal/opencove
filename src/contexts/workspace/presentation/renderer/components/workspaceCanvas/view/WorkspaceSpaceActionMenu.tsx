@@ -1,14 +1,6 @@
 import React from 'react'
 import { ViewportMenuSurface } from '@app/renderer/components/ViewportMenuSurface'
-import {
-  Check,
-  ChevronRight,
-  Copy,
-  FolderOpen,
-  GitBranchPlus,
-  LayoutGrid,
-  Package,
-} from 'lucide-react'
+import { Check, ChevronRight, Copy, FolderOpen, LayoutGrid, Package } from 'lucide-react'
 import { useTranslation } from '@app/renderer/i18n'
 import type { WorkspacePathOpener, WorkspacePathOpenerId } from '@shared/contracts/dto'
 import { LABEL_COLORS, type LabelColor } from '@shared/types/labelColor'
@@ -26,7 +18,6 @@ interface WorkspaceSpaceActionMenuProps {
   menu: SpaceActionMenuState | null
   availableOpeners: WorkspacePathOpener[]
   canArrange?: boolean
-  canCreateWorktree: boolean
   canArchive: boolean
   currentLabelColor?: LabelColor | null
   preserveWindowSizes?: boolean
@@ -34,7 +25,6 @@ interface WorkspaceSpaceActionMenuProps {
   setSpaceLabelColor: (spaceId: string, labelColor: LabelColor | null) => void
   onChangePreserveWindowSizes?: (enabled: boolean) => void
   onArrange?: (spaceId: string) => void
-  onCreateWorktree: (anchor: { x: number; y: number }) => void
   onArchive: (anchor: { x: number; y: number }) => void
   onCopyPath: () => void | Promise<void>
   onOpenPath: (openerId: WorkspacePathOpenerId) => void | Promise<void>
@@ -80,7 +70,6 @@ export function WorkspaceSpaceActionMenu({
   menu,
   availableOpeners,
   canArrange = true,
-  canCreateWorktree,
   canArchive,
   currentLabelColor = null,
   preserveWindowSizes = false,
@@ -88,7 +77,6 @@ export function WorkspaceSpaceActionMenu({
   setSpaceLabelColor,
   onChangePreserveWindowSizes,
   onArrange,
-  onCreateWorktree,
   onArchive,
   onCopyPath,
   onOpenPath,
@@ -293,23 +281,6 @@ export function WorkspaceSpaceActionMenu({
         </div>
 
         <div className="workspace-context-menu__separator" />
-
-        {canCreateWorktree ? (
-          <button
-            type="button"
-            data-testid="workspace-space-action-create"
-            onClick={event => {
-              const rect = event.currentTarget.getBoundingClientRect()
-              onCreateWorktree({ x: Math.round(rect.left), y: Math.round(rect.top) })
-              closeMenu()
-            }}
-          >
-            <GitBranchPlus className="workspace-context-menu__icon" aria-hidden="true" />
-            <span className="workspace-context-menu__label">
-              {t('spaceActions.createWorktree')}
-            </span>
-          </button>
-        ) : null}
 
         {canArchive ? (
           <button

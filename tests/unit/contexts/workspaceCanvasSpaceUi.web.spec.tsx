@@ -48,10 +48,10 @@ function HookHost(): React.JSX.Element {
       </button>
       <button
         type="button"
-        data-testid="open-create-worktree"
-        onClick={() => ui.openSpaceCreateWorktree('space-1', { x: 320, y: 88 })}
+        data-testid="open-archive-first"
+        onClick={() => ui.openSpaceArchive('space-1', { x: 320, y: 88 })}
       >
-        Create worktree
+        Archive first
       </button>
       <button
         type="button"
@@ -180,7 +180,7 @@ describe('useWorkspaceCanvasSpaceUi (web UI differences)', () => {
   it('keeps a submitted operation while opening another anchored draft', () => {
     render(<HookHost />)
 
-    fireEvent.click(screen.getByTestId('open-create-worktree'))
+    fireEvent.click(screen.getByTestId('open-archive-first'))
     expect(screen.getByTestId('worktree-operations')).toHaveTextContent('"anchor":{"x":320,"y":88}')
 
     fireEvent.click(screen.getByTestId('mark-worktree-running'))
@@ -190,7 +190,7 @@ describe('useWorkspaceCanvasSpaceUi (web UI differences)', () => {
     expect(operations).toHaveLength(2)
     expect(operations[0]).toMatchObject({
       spaceId: 'space-1',
-      initialViewMode: 'create',
+      initialViewMode: 'archive',
       phase: 'running',
     })
     expect(operations[1]).toMatchObject({

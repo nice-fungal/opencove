@@ -134,125 +134,17 @@ async function openSpaceContextMenu(
   await pane.click({ button: 'right', position, force: true })
 }
 
-async function waitForWorktreeDirectory(
-  page: import('@playwright/test').Page,
-  options: { spaceId: string; canonicalRepoPath: string },
-): Promise<string> {
-  await expect
-    .poll(
-      async () => {
-        const shared = await readSharedState(page.request)
-        const space =
-          shared.state?.workspaces[0]?.spaces.find(item => item.id === options.spaceId) ?? null
-        const directoryPath = space?.directoryPath
-        if (typeof directoryPath !== 'string') {
-          return false
-        }
-
-        const canonicalDirectoryPath = await realpath(directoryPath).catch(() => directoryPath)
-        const expectedWorktreesRoot = normalizePath(
-          path.join(options.canonicalRepoPath, '.opencove', 'worktrees'),
-        )
-        const normalized = normalizePath(canonicalDirectoryPath)
-
-        return (
-          normalized !== normalizePath(options.canonicalRepoPath) &&
-          normalized.startsWith(`${expectedWorktreesRoot}/`)
-        )
-      },
-      { timeout: 30_000 },
-    )
-    .toBe(true)
-
-  const shared = await readSharedState(page.request)
-  const space =
-    shared.state?.workspaces[0]?.spaces.find(item => item.id === options.spaceId) ?? null
-  const directoryPath = space?.directoryPath
-  if (typeof directoryPath !== 'string') {
-    throw new Error(`Worktree directory missing for Space: ${options.spaceId}`)
-  }
-
-  return directoryPath
-}
-
 test.describe('Worker web canvas - Worktree', () => {
-  test('creates a space worktree from the web UI', async ({ page }) => {
-    const repoPath = await createWorkspaceDir('web-worktree')
-    const canonicalRepoPath = await realpath(repoPath).catch(() => repoPath)
-    await initRepo(repoPath)
-    await invokeValue<void>(page.request, 'command', 'workspace.approveRoot', { path: repoPath })
-
-    await writeAppState(
-      page.request,
-      buildAppState({
-        workspacePath: repoPath,
-        workspaceName: 'web-worktree',
-        spaces: [
-          {
-            id: 'space-1',
-            name: 'Main',
-            directoryPath: repoPath,
-            nodeIds: [],
-            rect: { x: 0, y: 0, width: 1200, height: 800 },
-          },
-        ],
-      }),
-    )
-
-    await openAuthedCanvas(page)
-
-    await page.locator('[data-testid="workspace-space-menu-space-1"]').click()
-    await expect(page.locator('[data-testid="workspace-space-action-menu"]')).toBeVisible()
-    await page.locator('[data-testid="workspace-space-action-create"]').click()
-
-    await expect(page.locator('[data-testid="space-worktree-window"]')).toBeVisible()
-
-    const branchName = `feature/web-e2e-${Date.now()}`
-    await page.locator('[data-testid="space-worktree-branch-name"]').fill(branchName)
-    await expect(page.locator('[data-testid="space-worktree-create"]')).toBeEnabled()
-    await page.locator('[data-testid="space-worktree-create"]').click()
-
-    const expectedWorktreesRoot = normalizePath(
-      path.join(canonicalRepoPath, '.opencove', 'worktrees'),
-    )
-
-    await expect(page.locator('[data-testid="workspace-space-switch-space-1"]')).toContainText(
-      branchName,
-      {
-        timeout: 30_000,
-      },
-    )
-
-    await expect
-      .poll(
-        async () => {
-          const shared = await readSharedState(page.request)
-          const space =
-            shared.state?.workspaces[0]?.spaces.find(item => item.id === 'space-1') ?? null
-          const directoryPath = space?.directoryPath
-          if (typeof directoryPath !== 'string') {
-            return false
-          }
-
-          const canonicalDirectoryPath = await realpath(directoryPath).catch(() => directoryPath)
-
-          const normalized = normalizePath(canonicalDirectoryPath)
-          return (
-            normalized !== normalizePath(canonicalRepoPath) &&
-            normalized.startsWith(`${expectedWorktreesRoot}/`)
-          )
-        },
-        { timeout: 30_000 },
-      )
-      .toBe(true)
-  })
-
   test('launches terminal and agent inside a space worktree from the web UI', async ({ page }) => {
     const spaceId = 'space-1'
     const repoPath = await createWorkspaceDir('web-worktree-runtime')
-    const canonicalRepoPath = await realpath(repoPath).catch(() => repoPath)
     await initRepo(repoPath)
     await invokeValue<void>(page.request, 'command', 'workspace.approveRoot', { path: repoPath })
+
+    const branchName = `feature/web-runtime-${Date.now()}`
+    const worktreePath = path.join(repoPath, '.opencove', 'worktrees', branchName)
+    await runGit(['worktree', 'add', '-b', branchName, worktreePath, 'HEAD'], repoPath)
+    const canonicalWorktreePath = await realpath(worktreePath).catch(() => worktreePath)
 
     await writeAppState(
       page.request,
@@ -262,8 +154,8 @@ test.describe('Worker web canvas - Worktree', () => {
         spaces: [
           {
             id: spaceId,
-            name: 'Main',
-            directoryPath: repoPath,
+            name: branchName,
+            directoryPath: worktreePath,
             nodeIds: [],
             rect: { x: 0, y: 0, width: 1200, height: 800 },
           },
@@ -288,23 +180,10 @@ test.describe('Worker web canvas - Worktree', () => {
 
     await openAuthedCanvas(page)
 
-    await page.locator(`[data-testid="workspace-space-menu-${spaceId}"]`).click({ force: true })
-    await expect(page.locator('[data-testid="workspace-space-action-menu"]')).toBeVisible()
-    await page.locator('[data-testid="workspace-space-action-create"]').click()
-    await expect(page.locator('[data-testid="space-worktree-window"]')).toBeVisible()
-
-    const branchName = `feature/web-runtime-${Date.now()}`
-    await page.locator('[data-testid="space-worktree-branch-name"]').fill(branchName)
-    await expect(page.locator('[data-testid="space-worktree-create"]')).toBeEnabled()
-    await page.locator('[data-testid="space-worktree-create"]').click()
-
     await expect(page.locator(`[data-testid="workspace-space-switch-${spaceId}"]`)).toContainText(
       branchName,
       { timeout: 30_000 },
     )
-
-    const worktreePath = await waitForWorktreeDirectory(page, { spaceId, canonicalRepoPath })
-    const canonicalWorktreePath = await realpath(worktreePath).catch(() => worktreePath)
 
     const terminalCountBefore = await page.locator('.terminal-node').count()
     await openSpaceContextMenu(page, spaceId)
@@ -383,8 +262,7 @@ test.describe('Worker web canvas - Worktree', () => {
             return node.kind === 'agent' && space?.nodeIds.includes(nodeId)
           }) ?? null
         const agent = agentNode?.agent as
-          | { executionDirectory?: unknown; expectedDirectory?: unknown }
-          | undefined
+          { executionDirectory?: unknown; expectedDirectory?: unknown } | undefined
 
         return {
           spaceStillUsesWorktreeDirectory: space

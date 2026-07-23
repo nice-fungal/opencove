@@ -244,7 +244,6 @@ function createBaseProps(
     openSpacePath: () => undefined,
     spaceWorktreeOperations: [],
     worktreesRoot: '',
-    openSpaceCreateWorktree: () => undefined,
     openSpaceArchive: () => undefined,
     closeSpaceWorktree: () => undefined,
     setSpaceWorktreeOperationPhase: () => undefined,

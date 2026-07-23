@@ -409,11 +409,9 @@ export function createSettingsSearchEntries(options: {
       keywords: [
         workspace.path,
         t('settingsPanel.workspace.title'),
-        t('settingsPanel.workspace.worktreeRootLabel'),
         t('settingsPanel.workspace.environmentVariablesTitle'),
         'project',
         'workspace',
-        'worktree',
         'env',
         '项目',
         '工作区',

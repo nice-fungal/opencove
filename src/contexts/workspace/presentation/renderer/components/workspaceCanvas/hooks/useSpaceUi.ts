@@ -48,7 +48,6 @@ export function useWorkspaceCanvasSpaceUi({
   closeSpaceActionMenu: () => void
   copySpacePath: (spaceId: string) => Promise<void>
   openSpacePath: (spaceId: string, openerId: WorkspacePathOpenerId) => Promise<void>
-  openSpaceCreateWorktree: (spaceId: string, anchor: { x: number; y: number }) => void
   openSpaceArchive: (spaceId: string, anchor: { x: number; y: number }) => void
   closeSpaceWorktree: (operationId: string) => void
   setSpaceWorktreeOperationPhase: (operationId: string, phase: SpaceWorktreeOperationPhase) => void
@@ -209,13 +208,6 @@ export function useWorkspaceCanvasSpaceUi({
     [],
   )
 
-  const openSpaceCreateWorktree = useCallback(
-    (spaceId: string, anchor: { x: number; y: number }) => {
-      openSpaceWorktreeOperation(spaceId, 'create', anchor)
-    },
-    [openSpaceWorktreeOperation],
-  )
-
   const openSpaceArchive = useCallback(
     (spaceId: string, anchor: { x: number; y: number }) => {
       openSpaceWorktreeOperation(spaceId, 'archive', anchor)
@@ -254,7 +246,6 @@ export function useWorkspaceCanvasSpaceUi({
     closeSpaceActionMenu,
     copySpacePath,
     openSpacePath,
-    openSpaceCreateWorktree,
     openSpaceArchive,
     closeSpaceWorktree,
     setSpaceWorktreeOperationPhase,

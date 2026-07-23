@@ -270,19 +270,16 @@ describe('Settings form accessible names', () => {
     expectNamedTestId('settings-worker-remote-token', 'Token')
   })
 
-  it('names project worktree and environment variable inputs', () => {
+  it('names project environment variable inputs', () => {
     render(
       <WorkspaceSection
         workspaceName="Cove"
         workspacePath="/repo/cove"
-        worktreesRoot=".opencove/worktrees"
-        onChangeWorktreesRoot={noop}
         environmentVariables={{}}
         onChangeEnvironmentVariables={noop}
       />,
     )
 
-    expectNamedTestId('settings-worktree-root', 'Worktree Root')
     expectNamedTestId('settings-env-var-key-input', 'Environment variable name')
     expectNamedTestId('settings-env-var-value-input', 'Environment variable value')
   })
@@ -294,14 +291,11 @@ describe('Settings form accessible names', () => {
       <WorkspaceSection
         workspaceName="Cove"
         workspacePath="/repo/cove"
-        worktreesRoot=".opencove/worktrees"
-        onChangeWorktreesRoot={noop}
         environmentVariables={{}}
         onChangeEnvironmentVariables={noop}
       />,
     )
 
-    expectNamedTestId('settings-worktree-root', 'Worktree 根目录')
     expectNamedTestId('settings-env-var-key-input', '环境变量名')
     expectNamedTestId('settings-env-var-value-input', '环境变量值')
   })
