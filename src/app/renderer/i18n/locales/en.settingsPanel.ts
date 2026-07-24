@@ -195,12 +195,6 @@ export const enSettingsPanel = {
   experimental: {
     title: 'Experimental',
     help: 'Low-frequency and still-evolving capabilities. Keep defaults unless you need these workflows.',
-    remoteWorkersTitle: 'Remote Workers & Locations',
-    remoteWorkersHelp:
-      'Opt-in support for remote workers and remote project locations. Keep this off until the workflow is stable.',
-    remoteWorkersEnabledLabel: 'Enable Remote Workers',
-    remoteWorkersEnabledHelp:
-      'Shows remote worker and remote location UI. When disabled, OpenCove keeps the local-only workflow by default.',
     workerWebUi: {
       title: 'Worker Web UI',
       securityTitle: 'Access Security',

@@ -335,19 +335,19 @@ describe('SettingsPanel', () => {
     expect(onDownloadUpdate).toHaveBeenCalledTimes(1)
   })
 
-  it('toggles remote workers from Worker & Connections settings', () => {
-    const onChange = vi.fn()
+  it('does not show the remote workers enable toggle in Worker settings', () => {
     mockTerminalProfiles()
     installSettingsPanelWorkerApi()
-    renderSettingsPanel({ onChange })
+    renderSettingsPanel()
 
     fireEvent.click(screen.getByTestId('settings-section-nav-worker'))
-    fireEvent.click(screen.getByTestId('settings-experimental-remote-workers-enabled'))
 
-    expect(onChange).toHaveBeenCalledWith({
-      ...DEFAULT_AGENT_SETTINGS,
-      experimentalRemoteWorkersEnabled: true,
-    })
+    expect(
+      screen.queryByTestId('settings-experimental-remote-workers-enabled'),
+    ).not.toBeInTheDocument()
+    expect(document.getElementById('settings-section-experimental-remote-workers')).toBeNull()
+    expect(document.getElementById('settings-section-worker-connections')).toBeNull()
+    expect(screen.queryByText('Enable Remote Workers')).not.toBeInTheDocument()
   })
 
   it('keeps endpoints inside Worker settings and gates registration until enabled', () => {

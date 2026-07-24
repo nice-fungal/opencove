@@ -102,7 +102,6 @@ export function SettingsPanel({
     updateBrowserDefaultMode,
     updateBrowserSearchEngine,
     updateExperimentalWebsiteWindowPasteEnabled,
-    updateExperimentalRemoteWorkersEnabled,
     updateTerminalFontSize,
     updateTerminalFontFamily,
     updateTerminalAutoReference,
@@ -344,7 +343,6 @@ export function SettingsPanel({
           {canonicalPageId === 'worker' ? (
             <WorkerConnectionsSection
               remoteWorkersEnabled={settings.experimentalRemoteWorkersEnabled}
-              onChangeRemoteWorkersEnabled={updateExperimentalRemoteWorkersEnabled}
             />
           ) : null}
 

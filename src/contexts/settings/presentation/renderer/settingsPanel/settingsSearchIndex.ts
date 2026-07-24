@@ -208,15 +208,6 @@ const CORE_SEARCH_ENTRY_DEFINITIONS: Array<
     keywords: ['focus', 'center', 'zoom', 'node', '聚焦', '居中'],
   },
   {
-    id: 'experimental.remote-workers',
-    pageId: 'worker',
-    titleKey: 'settingsPanel.experimental.remoteWorkersTitle',
-    descriptionKey: 'settingsPanel.experimental.remoteWorkersHelp',
-    anchorId: 'settings-section-experimental-remote-workers',
-    keywordKeys: ['settingsPanel.experimental.remoteWorkersEnabledLabel'],
-    keywords: ['remote', 'worker', 'location', 'experimental', '远程'],
-  },
-  {
     id: 'experimental.worker-web-ui',
     pageId: 'worker',
     titleKey: 'settingsPanel.experimental.workerWebUi.title',
