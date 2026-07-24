@@ -348,25 +348,19 @@ describe('SettingsPanel', () => {
     expect(onDownloadUpdate).toHaveBeenCalledTimes(1)
   })
 
-  it('offers remote connections without changing the saved legacy preference', async () => {
-    const onChange = vi.fn()
+  it('does not show the remote workers enable toggle in Worker settings', () => {
     mockTerminalProfiles()
     installSettingsPanelWorkerApi()
-    renderSettingsPanel({
-      onChange,
-      settings: { ...DEFAULT_AGENT_SETTINGS, experimentalRemoteWorkersEnabled: false },
-    })
+    renderSettingsPanel()
 
     fireEvent.click(screen.getByTestId('settings-section-nav-worker'))
-    expect(await screen.findByTestId('settings-endpoints-open-register')).toBeVisible()
-    expect(screen.queryByTestId('settings-endpoints-empty-register')).not.toBeInTheDocument()
+
     expect(
       screen.queryByTestId('settings-experimental-remote-workers-enabled'),
     ).not.toBeInTheDocument()
-    expect(onChange).not.toHaveBeenCalled()
-    expect(window.opencoveApi.workerClient.setConfig).not.toHaveBeenCalled()
-    expect(window.opencoveApi.worker.start).not.toHaveBeenCalled()
-    expect(window.opencoveApi.worker.stop).not.toHaveBeenCalled()
+    expect(document.getElementById('settings-section-experimental-remote-workers')).toBeNull()
+    expect(document.getElementById('settings-section-worker-connections')).toBeNull()
+    expect(screen.queryByText('Enable Remote Workers')).not.toBeInTheDocument()
   })
 
   it('keeps the legacy endpoints route and shows registration with a disabled legacy flag', async () => {
