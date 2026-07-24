@@ -441,11 +441,15 @@ export function WorkspaceCanvasInner({
       openQuickMenuSettings={openQuickMenuSettings}
       createSpaceFromSelectedNodes={spacesApi.createSpaceFromSelectedNodes}
       createChildSpaceInParent={spacesApi.createChildSpaceInParent}
-      createEmptySpaceAtPoint={spacesApi.createEmptySpaceAtPoint}
+      createEmptySpaceFromContextMenu={spacesApi.createEmptySpaceFromContextMenu}
       spaceTargetMountPicker={spacesApi.spaceTargetMountPicker}
       setSpaceTargetMountPicker={spacesApi.setSpaceTargetMountPicker}
       confirmSpaceTargetMountPicker={spacesApi.confirmSpaceTargetMountPicker}
       cancelSpaceTargetMountPicker={spacesApi.cancelSpaceTargetMountPicker}
+      contextMenuSpaceTargetMountPicker={spacesApi.contextMenuSpaceTargetMountPicker}
+      setContextMenuSpaceTargetMountPicker={spacesApi.setContextMenuSpaceTargetMountPicker}
+      confirmContextMenuSpaceTargetMountPicker={spacesApi.confirmContextMenuSpaceTargetMountPicker}
+      cancelContextMenuSpaceTargetMountPicker={spacesApi.cancelContextMenuSpaceTargetMountPicker}
       clearNodeSelection={clearNodeSelection}
       canConvertSelectedNoteToTask={canConvertSelectedNoteToTask}
       isConvertSelectedNoteToTaskDisabled={isConvertSelectedNoteToTaskDisabled}

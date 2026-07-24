@@ -123,11 +123,15 @@ export function WorkspaceCanvasView({
   openQuickMenuSettings,
   createSpaceFromSelectedNodes,
   createChildSpaceInParent,
-  createEmptySpaceAtPoint,
+  createEmptySpaceFromContextMenu,
   spaceTargetMountPicker,
   setSpaceTargetMountPicker,
   confirmSpaceTargetMountPicker,
   cancelSpaceTargetMountPicker,
+  contextMenuSpaceTargetMountPicker,
+  setContextMenuSpaceTargetMountPicker,
+  confirmContextMenuSpaceTargetMountPicker,
+  cancelContextMenuSpaceTargetMountPicker,
   clearNodeSelection,
   canConvertSelectedNoteToTask,
   isConvertSelectedNoteToTaskDisabled,
@@ -421,7 +425,7 @@ export function WorkspaceCanvasView({
         arrangeInSpace={arrangeInSpace}
         createSpaceFromSelectedNodes={createSpaceFromSelectedNodes}
         createChildSpaceInParent={createChildSpaceInParent}
-        createEmptySpaceAtPoint={createEmptySpaceAtPoint}
+        createEmptySpaceFromContextMenu={createEmptySpaceFromContextMenu}
         clearNodeSelection={clearNodeSelection}
         canConvertSelectedNoteToTask={canConvertSelectedNoteToTask}
         isConvertSelectedNoteToTaskDisabled={isConvertSelectedNoteToTaskDisabled}
@@ -459,6 +463,10 @@ export function WorkspaceCanvasView({
         setSpaceTargetMountPicker={setSpaceTargetMountPicker}
         confirmSpaceTargetMountPicker={confirmSpaceTargetMountPicker}
         cancelSpaceTargetMountPicker={cancelSpaceTargetMountPicker}
+        contextMenuSpaceTargetMountPicker={contextMenuSpaceTargetMountPicker}
+        setContextMenuSpaceTargetMountPicker={setContextMenuSpaceTargetMountPicker}
+        confirmContextMenuSpaceTargetMountPicker={confirmContextMenuSpaceTargetMountPicker}
+        cancelContextMenuSpaceTargetMountPicker={cancelContextMenuSpaceTargetMountPicker}
         nodeDeleteConfirmation={nodeDeleteConfirmation}
         setNodeDeleteConfirmation={setNodeDeleteConfirmation}
         confirmNodeDelete={confirmNodeDelete}

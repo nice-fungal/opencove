@@ -48,7 +48,7 @@ export function WorkspaceContextMenu({
   arrangeInSpace,
   createSpaceFromSelectedNodes,
   createChildSpaceInParent,
-  createEmptySpaceAtPoint,
+  createEmptySpaceFromContextMenu,
   clearNodeSelection,
   canConvertSelectedNoteToTask,
   isConvertSelectedNoteToTaskDisabled,
@@ -174,14 +174,23 @@ export function WorkspaceContextMenu({
     })
 
     if (!hitSpace) {
-      createEmptySpaceAtPoint({ x: contextMenu.flowX, y: contextMenu.flowY })
+      createEmptySpaceFromContextMenu({
+        flowPoint: { x: contextMenu.flowX, y: contextMenu.flowY },
+        anchor: { x: contextMenu.x, y: contextMenu.y },
+      })
       return
     }
 
     createChildSpaceInParent(hitSpace.id, {
       anchor: { x: contextMenu.flowX, y: contextMenu.flowY },
     })
-  }, [closeContextMenu, contextMenu, createChildSpaceInParent, createEmptySpaceAtPoint, spaces])
+  }, [
+    closeContextMenu,
+    contextMenu,
+    createChildSpaceInParent,
+    createEmptySpaceFromContextMenu,
+    spaces,
+  ])
 
   const keepAgentProviderSubmenuOpen = useCallback(() => {
     cancelScheduledSubmenuClose()

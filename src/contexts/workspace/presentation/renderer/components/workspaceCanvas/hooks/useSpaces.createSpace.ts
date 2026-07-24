@@ -67,7 +67,10 @@ export function useWorkspaceCanvasCreateSpace({
   ) => string | null
 }): {
   createSpaceFromSelectedNodes: () => void
-  createEmptySpaceAtPoint: (point: { x: number; y: number }) => string | null
+  createEmptySpaceAtPoint: (
+    point: { x: number; y: number },
+    options?: { targetMountId: string; directoryPath: string },
+  ) => string | null
   createSpaceWithTargetMount: (payload: {
     nodeIds: string[]
     rect: WorkspaceSpaceRect | null
@@ -411,7 +414,7 @@ export function useWorkspaceCanvasCreateSpace({
   ])
 
   const createEmptySpaceAtPoint = useCallback(
-    (point: { x: number; y: number }) => {
+    (point: { x: number; y: number }, options?: { targetMountId: string; directoryPath: string }) => {
       const nextSpaceId = crypto.randomUUID()
       const normalizedName = resolveDefaultSpaceName()
 
@@ -454,11 +457,15 @@ export function useWorkspaceCanvasCreateSpace({
         height: size.height,
       }
 
+      const explicitDirectoryPath = options?.directoryPath.trim()
       const nextSpace: WorkspaceSpaceState = {
         id: nextSpaceId,
         name: normalizedName,
-        directoryPath: workspacePath,
-        targetMountId: null,
+        directoryPath:
+          explicitDirectoryPath && explicitDirectoryPath.length > 0
+            ? explicitDirectoryPath
+            : workspacePath,
+        targetMountId: options?.targetMountId ?? null,
         labelColor: null,
         nodeIds: [],
         rect,

@@ -110,6 +110,13 @@ export interface SpaceTargetMountPickerState {
   anchor: { x: number; y: number }
 }
 
+export interface ContextMenuSpaceMountPickerState {
+  flowPoint: { x: number; y: number }
+  mounts: MountDto[]
+  selectedMountId: string
+  anchor: { x: number; y: number }
+}
+
 export interface SpaceVisual {
   id: string
   name: string

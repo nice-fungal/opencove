@@ -150,13 +150,22 @@ export interface WorkspaceCanvasViewProps {
     parentSpaceId: string,
     options?: { anchor?: { x: number; y: number } | null; nodeIds?: string[] },
   ) => string | null
-  createEmptySpaceAtPoint: (point: { x: number; y: number }) => void
+  createEmptySpaceFromContextMenu: (options: {
+    flowPoint: { x: number; y: number }
+    anchor: { x: number; y: number }
+  }) => void
   spaceTargetMountPicker: SpaceTargetMountPickerState | null
   setSpaceTargetMountPicker: React.Dispatch<
     React.SetStateAction<SpaceTargetMountPickerState | null>
   >
   confirmSpaceTargetMountPicker: () => void
   cancelSpaceTargetMountPicker: () => void
+  contextMenuSpaceTargetMountPicker: SpaceTargetMountPickerState | null
+  setContextMenuSpaceTargetMountPicker: React.Dispatch<
+    React.SetStateAction<SpaceTargetMountPickerState | null>
+  >
+  confirmContextMenuSpaceTargetMountPicker: () => void
+  cancelContextMenuSpaceTargetMountPicker: () => void
   clearNodeSelection: () => void
   canConvertSelectedNoteToTask: boolean
   isConvertSelectedNoteToTaskDisabled: boolean
