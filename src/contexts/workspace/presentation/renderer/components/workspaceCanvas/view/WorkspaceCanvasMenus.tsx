@@ -29,7 +29,7 @@ export function WorkspaceCanvasMenus({
   arrangeInSpace,
   createSpaceFromSelectedNodes,
   createChildSpaceInParent,
-  createEmptySpaceAtPoint,
+  createEmptySpaceFromContextMenu,
   clearNodeSelection,
   canConvertSelectedNoteToTask,
   isConvertSelectedNoteToTaskDisabled,
@@ -69,7 +69,7 @@ export function WorkspaceCanvasMenus({
   | 'arrangeInSpace'
   | 'createSpaceFromSelectedNodes'
   | 'createChildSpaceInParent'
-  | 'createEmptySpaceAtPoint'
+  | 'createEmptySpaceFromContextMenu'
   | 'clearNodeSelection'
   | 'canConvertSelectedNoteToTask'
   | 'isConvertSelectedNoteToTaskDisabled'
@@ -129,7 +129,7 @@ export function WorkspaceCanvasMenus({
         arrangeInSpace={arrangeInSpace}
         createSpaceFromSelectedNodes={createSpaceFromSelectedNodes}
         createChildSpaceInParent={createChildSpaceInParent}
-        createEmptySpaceAtPoint={createEmptySpaceAtPoint}
+        createEmptySpaceFromContextMenu={createEmptySpaceFromContextMenu}
         clearNodeSelection={clearNodeSelection}
         canConvertSelectedNoteToTask={canConvertSelectedNoteToTask}
         isConvertSelectedNoteToTaskDisabled={isConvertSelectedNoteToTaskDisabled}

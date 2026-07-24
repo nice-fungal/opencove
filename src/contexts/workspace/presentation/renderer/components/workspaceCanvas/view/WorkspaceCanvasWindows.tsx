@@ -30,6 +30,10 @@ export function WorkspaceCanvasWindows({
   setSpaceTargetMountPicker,
   confirmSpaceTargetMountPicker,
   cancelSpaceTargetMountPicker,
+  contextMenuSpaceTargetMountPicker,
+  setContextMenuSpaceTargetMountPicker,
+  confirmContextMenuSpaceTargetMountPicker,
+  cancelContextMenuSpaceTargetMountPicker,
   nodeDeleteConfirmation,
   setNodeDeleteConfirmation,
   confirmNodeDelete,
@@ -72,6 +76,10 @@ export function WorkspaceCanvasWindows({
   | 'setSpaceTargetMountPicker'
   | 'confirmSpaceTargetMountPicker'
   | 'cancelSpaceTargetMountPicker'
+  | 'contextMenuSpaceTargetMountPicker'
+  | 'setContextMenuSpaceTargetMountPicker'
+  | 'confirmContextMenuSpaceTargetMountPicker'
+  | 'cancelContextMenuSpaceTargetMountPicker'
   | 'nodeDeleteConfirmation'
   | 'setNodeDeleteConfirmation'
   | 'confirmNodeDelete'
@@ -128,6 +136,13 @@ export function WorkspaceCanvasWindows({
         setPicker={setSpaceTargetMountPicker}
         onCancel={cancelSpaceTargetMountPicker}
         onConfirm={confirmSpaceTargetMountPicker}
+      />
+
+      <SpaceTargetMountPickerWindow
+        picker={contextMenuSpaceTargetMountPicker}
+        setPicker={setContextMenuSpaceTargetMountPicker}
+        onCancel={cancelContextMenuSpaceTargetMountPicker}
+        onConfirm={confirmContextMenuSpaceTargetMountPicker}
       />
 
       <NodeDeleteConfirmationWindow

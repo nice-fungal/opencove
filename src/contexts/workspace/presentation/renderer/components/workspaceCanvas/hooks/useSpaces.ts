@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { Node, ReactFlowInstance } from '@xyflow/react'
+import { useTranslation } from '@app/renderer/i18n'
 import type {
   FocusNodeTargetZoom,
   StandardWindowSizeBucket,
 } from '@contexts/settings/domain/agentSettings'
 import type { TerminalNodeData, WorkspaceSpaceState } from '../../../types'
 import type {
+  ContextMenuSpaceMountPickerState,
   ContextMenuState,
   EmptySelectionPromptState,
   ShowWorkspaceCanvasMessage,
@@ -15,6 +17,7 @@ import type {
 import type { LabelColor } from '@shared/types/labelColor'
 import { computeSpaceRectFromNodes } from '../../../utils/spaceLayout'
 import { useWorkspaceCanvasCreateSpace } from './useSpaces.createSpace'
+import { prepareSpaceTargetMounts } from './useSpaces.createSpaceSelection'
 import { useWorkspaceCanvasCreateChildSpace } from './useSpaces.createChildSpace'
 import { useWorkspaceCanvasSpaceFocus } from './useSpaces.focus'
 
@@ -77,13 +80,26 @@ export function useWorkspaceCanvasSpaces({
     parentSpaceId: string,
     options?: { anchor?: { x: number; y: number } | null; nodeIds?: string[] },
   ) => string | null
-  createEmptySpaceAtPoint: (point: { x: number; y: number }) => void
+  createEmptySpaceAtPoint: (
+    point: { x: number; y: number },
+    options?: { targetMountId: string; directoryPath: string },
+  ) => void
+  createEmptySpaceFromContextMenu: (options: {
+    flowPoint: { x: number; y: number }
+    anchor: { x: number; y: number }
+  }) => void
   spaceTargetMountPicker: SpaceTargetMountPickerState | null
   setSpaceTargetMountPicker: React.Dispatch<
     React.SetStateAction<SpaceTargetMountPickerState | null>
   >
   confirmSpaceTargetMountPicker: () => void
   cancelSpaceTargetMountPicker: () => void
+  contextMenuSpaceTargetMountPicker: SpaceTargetMountPickerState | null
+  setContextMenuSpaceTargetMountPicker: React.Dispatch<
+    React.SetStateAction<SpaceTargetMountPickerState | null>
+  >
+  confirmContextMenuSpaceTargetMountPicker: () => void
+  cancelContextMenuSpaceTargetMountPicker: () => void
   spaceVisuals: SpaceVisual[]
   activateSpace: (spaceId: string) => void
   activateAllSpaces: () => void
@@ -94,8 +110,11 @@ export function useWorkspaceCanvasSpaces({
   const [editingSpaceId, setEditingSpaceId] = useState<string | null>(null)
   const [spaceRenameDraft, setSpaceRenameDraft] = useState('')
   const spaceRenameInputRef = useRef<HTMLInputElement>(null)
+  const { t } = useTranslation()
   const [spaceTargetMountPicker, setSpaceTargetMountPicker] =
     useState<SpaceTargetMountPickerState | null>(null)
+  const [contextMenuSpaceMountPicker, setContextMenuSpaceMountPicker] =
+    useState<ContextMenuSpaceMountPickerState | null>(null)
 
   useLayoutEffect(() => {
     spacesRef.current = spaces
@@ -109,6 +128,7 @@ export function useWorkspaceCanvasSpaces({
     setEditingSpaceId(null)
     setSpaceRenameDraft('')
     setSpaceTargetMountPicker(null)
+    setContextMenuSpaceMountPicker(null)
   }, [workspaceId])
 
   useEffect(() => {
@@ -341,8 +361,8 @@ export function useWorkspaceCanvasSpaces({
   })
 
   const createEmptySpaceAtPoint = useCallback(
-    (point: { x: number; y: number }) => {
-      const createdSpaceId = createEmptySpaceAtPointInternal(point)
+    (point: { x: number; y: number }, options?: { targetMountId: string; directoryPath: string }) => {
+      const createdSpaceId = createEmptySpaceAtPointInternal(point, options)
       if (!createdSpaceId) {
         return
       }
@@ -359,6 +379,109 @@ export function useWorkspaceCanvasSpaces({
     [createEmptySpaceAtPointInternal, focusSpaceInViewport],
   )
 
+  const contextMenuSpaceTargetMountPicker = useMemo<SpaceTargetMountPickerState | null>(() => {
+    if (!contextMenuSpaceMountPicker) {
+      return null
+    }
+
+    return {
+      nodeIds: [],
+      rect: null,
+      mounts: contextMenuSpaceMountPicker.mounts,
+      selectedMountId: contextMenuSpaceMountPicker.selectedMountId,
+      anchor: contextMenuSpaceMountPicker.anchor,
+    }
+  }, [contextMenuSpaceMountPicker])
+
+  const setContextMenuSpaceTargetMountPicker = useCallback<
+    React.Dispatch<React.SetStateAction<SpaceTargetMountPickerState | null>>
+  >(
+    updater => {
+      setContextMenuSpaceMountPicker(previous => {
+        if (!previous) {
+          return previous
+        }
+
+        const previousView: SpaceTargetMountPickerState = {
+          nodeIds: [],
+          rect: null,
+          mounts: previous.mounts,
+          selectedMountId: previous.selectedMountId,
+          anchor: previous.anchor,
+        }
+        const nextView = typeof updater === 'function' ? updater(previousView) : updater
+        if (!nextView) {
+          return null
+        }
+
+        return {
+          ...previous,
+          mounts: nextView.mounts,
+          selectedMountId: nextView.selectedMountId,
+          anchor: nextView.anchor,
+        }
+      })
+    },
+    [],
+  )
+
+  const cancelContextMenuSpaceTargetMountPicker = useCallback(() => {
+    setContextMenuSpaceMountPicker(null)
+  }, [])
+
+  const confirmContextMenuSpaceTargetMountPicker = useCallback(() => {
+    const picker = contextMenuSpaceMountPicker
+    if (!picker) {
+      return
+    }
+
+    const selectedMount =
+      picker.mounts.find(mount => mount.mountId === picker.selectedMountId) ?? null
+    if (!selectedMount) {
+      return
+    }
+
+    createEmptySpaceAtPoint(picker.flowPoint, {
+      targetMountId: selectedMount.mountId,
+      directoryPath: selectedMount.rootPath,
+    })
+    setContextMenuSpaceMountPicker(null)
+  }, [contextMenuSpaceMountPicker, createEmptySpaceAtPoint])
+
+  const createEmptySpaceFromContextMenu = useCallback(
+    (options: { flowPoint: { x: number; y: number }; anchor: { x: number; y: number } }) => {
+      void (async () => {
+        const mounts = await prepareSpaceTargetMounts({
+          workspaceId,
+          workspacePath,
+          onShowMessage,
+          t,
+        })
+
+        if (!mounts) {
+          return
+        }
+
+        if (mounts.length === 1) {
+          const mount = mounts[0]
+          createEmptySpaceAtPoint(options.flowPoint, {
+            targetMountId: mount.mountId,
+            directoryPath: mount.rootPath,
+          })
+          return
+        }
+
+        setContextMenuSpaceMountPicker({
+          flowPoint: options.flowPoint,
+          mounts,
+          selectedMountId: mounts[0].mountId,
+          anchor: options.anchor,
+        })
+      })()
+    },
+    [createEmptySpaceAtPoint, onShowMessage, t, workspaceId, workspacePath],
+  )
+
   return {
     editingSpaceId,
     spaceRenameDraft,
@@ -371,10 +494,15 @@ export function useWorkspaceCanvasSpaces({
     createSpaceFromSelectedNodes,
     createChildSpaceInParent,
     createEmptySpaceAtPoint,
+    createEmptySpaceFromContextMenu,
     spaceTargetMountPicker,
     setSpaceTargetMountPicker,
     confirmSpaceTargetMountPicker,
     cancelSpaceTargetMountPicker,
+    contextMenuSpaceTargetMountPicker,
+    setContextMenuSpaceTargetMountPicker,
+    confirmContextMenuSpaceTargetMountPicker,
+    cancelContextMenuSpaceTargetMountPicker,
     spaceVisuals,
     activateSpace,
     activateAllSpaces,

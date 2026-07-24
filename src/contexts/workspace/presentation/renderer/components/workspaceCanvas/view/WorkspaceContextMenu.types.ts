@@ -46,7 +46,10 @@ export interface WorkspaceContextMenuProps {
     parentSpaceId: string,
     options?: { anchor?: { x: number; y: number } | null; nodeIds?: string[] },
   ) => string | null
-  createEmptySpaceAtPoint: (point: { x: number; y: number }) => void
+  createEmptySpaceFromContextMenu: (options: {
+    flowPoint: { x: number; y: number }
+    anchor: { x: number; y: number }
+  }) => void
   clearNodeSelection: () => void
   canConvertSelectedNoteToTask: boolean
   isConvertSelectedNoteToTaskDisabled: boolean
