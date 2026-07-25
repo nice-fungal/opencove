@@ -83,7 +83,7 @@ test.describe('Workspace Canvas - Space Explorer', () => {
     }
   })
 
-  test('keeps the canvas clipped and does not show the root branch badge when Explorer opens', async () => {
+  test('keeps the root branch badge visible before and after Explorer opens without layout overflow', async () => {
     const { electronApp, window } = await launchApp()
 
     try {
@@ -124,7 +124,7 @@ test.describe('Workspace Canvas - Space Explorer', () => {
       const branchBadge = window.locator(
         '[data-testid="workspace-space-worktree-branch-space-root-explorer"]',
       )
-      await expect(branchBadge).toHaveCount(0)
+      await expect(branchBadge).toBeVisible()
 
       const filesPill = window.locator('[data-testid="workspace-space-files-space-root-explorer"]')
       await expect(filesPill).toBeVisible()
@@ -151,7 +151,7 @@ test.describe('Workspace Canvas - Space Explorer', () => {
       })
 
       await window.waitForTimeout(1_500)
-      await expect(branchBadge).toHaveCount(0)
+      await expect(branchBadge).toBeVisible()
     } finally {
       await electronApp.close()
     }

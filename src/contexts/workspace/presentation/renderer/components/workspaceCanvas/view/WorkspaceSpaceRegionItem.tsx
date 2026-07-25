@@ -7,7 +7,6 @@ import type { SpaceVisual } from '../types'
 import type { SpaceFrameHandleMode } from '../../../utils/spaceLayout'
 
 export interface WorkspaceSpaceBranchBadge {
-  kind: string
   value: string
   title: string
 }
@@ -30,11 +29,9 @@ export function WorkspaceSpaceRegionItem({
   handleSpaceDragHandlePointerDown,
   updateHandleCursor,
   resolvedWorktreeInfo,
-  allowBranchRename,
   resolvedChangedFileCount,
   resolvedBranchBadge,
   resolvedPullRequestSummary,
-  onStartBranchRename,
   onToggleExplorer,
   onOpenSpaceMenu,
 }: {
@@ -63,17 +60,9 @@ export function WorkspaceSpaceRegionItem({
     mode: SpaceFrameHandleMode,
   ) => void
   resolvedWorktreeInfo: GitWorktreeInfo | null
-  allowBranchRename: boolean
   resolvedChangedFileCount: number | null
   resolvedBranchBadge: WorkspaceSpaceBranchBadge | null
   resolvedPullRequestSummary: GitHubPullRequestSummary | null
-  onStartBranchRename: (payload: {
-    spaceId: string
-    spaceName: string
-    worktreePath: string
-    branchName: string
-    anchor: { x: number; y: number }
-  }) => void
   onToggleExplorer?: (spaceId: string) => void
   onOpenSpaceMenu?: (spaceId: string, anchor: { x: number; y: number }) => void
 }): React.JSX.Element {
@@ -277,43 +266,12 @@ export function WorkspaceSpaceRegionItem({
               event.stopPropagation()
             }}
           >
-            {branchName && resolvedBranchBadge && worktreePath && allowBranchRename ? (
-              <button
-                type="button"
-                className="workspace-space-region__branch-badge workspace-space-region__branch-badge--button"
-                data-testid={`workspace-space-worktree-branch-${space.id}`}
-                title={resolvedBranchBadge.title}
-                onClick={event => {
-                  event.stopPropagation()
-                  const rect = event.currentTarget.getBoundingClientRect()
-                  onStartBranchRename({
-                    spaceId: space.id,
-                    spaceName: space.name,
-                    worktreePath,
-                    branchName,
-                    anchor: {
-                      x: Math.round(rect.left),
-                      y: Math.round(rect.bottom + 6),
-                    },
-                  })
-                }}
-              >
-                <span className="workspace-space-region__branch-badge-kind">
-                  {resolvedBranchBadge.kind}
-                </span>
-                <span className="workspace-space-region__branch-badge-value">
-                  {resolvedBranchBadge.value}
-                </span>
-              </button>
-            ) : resolvedBranchBadge ? (
+            {resolvedBranchBadge ? (
               <span
                 className="workspace-space-region__branch-badge"
                 data-testid={`workspace-space-worktree-branch-${space.id}`}
                 title={resolvedBranchBadge.title}
               >
-                <span className="workspace-space-region__branch-badge-kind">
-                  {resolvedBranchBadge.kind}
-                </span>
                 <span className="workspace-space-region__branch-badge-value">
                   {resolvedBranchBadge.value}
                 </span>

@@ -312,22 +312,19 @@ export function WorkspaceSpaceRegionsOverlay({
 
           const shouldShowRepoSummary = !isWorkspaceRootWorktree || isSelected
 
-          const resolvedBranchBadge: WorkspaceSpaceBranchBadge | null =
-            shouldShowRepoSummary && resolvedWorktreeInfo
-              ? resolvedWorktreeInfo.branch
+          const resolvedBranchBadge: WorkspaceSpaceBranchBadge | null = resolvedWorktreeInfo
+            ? resolvedWorktreeInfo.branch
+              ? {
+                  value: resolvedWorktreeInfo.branch,
+                  title: resolvedWorktreeInfo.branch,
+                }
+              : resolvedWorktreeInfo.head
                 ? {
-                    kind: t('worktree.branch'),
-                    value: resolvedWorktreeInfo.branch,
-                    title: resolvedWorktreeInfo.branch,
+                    value: toShortSha(resolvedWorktreeInfo.head),
+                    title: resolvedWorktreeInfo.head,
                   }
-                : resolvedWorktreeInfo.head
-                  ? {
-                      kind: t('worktree.detached'),
-                      value: toShortSha(resolvedWorktreeInfo.head),
-                      title: resolvedWorktreeInfo.head,
-                    }
-                  : null
-              : null
+                : null
+            : null
 
           const branchKey = shouldShowRepoSummary
             ? (resolvedWorktreeInfo?.branch?.trim() ?? '')
@@ -347,7 +344,6 @@ export function WorkspaceSpaceRegionsOverlay({
           const resolvedChangedFileCount = shouldShowRepoSummary
             ? (changedFilesByRepoKey.get(statusRepoKey) ?? null)
             : null
-          const allowBranchRename = Boolean(resolvedWorktreeInfo && !isWorkspaceRootWorktree)
 
           return (
             <WorkspaceSpaceRegionItem
@@ -373,23 +369,9 @@ export function WorkspaceSpaceRegionsOverlay({
               handleSpaceDragHandlePointerDown={handleSpaceDragHandlePointerDown}
               updateHandleCursor={updateHandleCursor}
               resolvedWorktreeInfo={resolvedWorktreeInfo}
-              allowBranchRename={allowBranchRename}
               resolvedChangedFileCount={resolvedChangedFileCount}
               resolvedBranchBadge={resolvedBranchBadge}
               resolvedPullRequestSummary={resolvedPullRequestSummary}
-              onStartBranchRename={({ spaceId, spaceName, worktreePath, branchName, anchor }) => {
-                setBranchRename({
-                  spaceId,
-                  spaceName,
-                  worktreePath,
-                  targetMountId: space.targetMountId,
-                  currentName: branchName,
-                  nextName: branchName,
-                  isSubmitting: false,
-                  error: null,
-                  anchor,
-                })
-              }}
               onToggleExplorer={toggleExplorer}
               onOpenSpaceMenu={onOpenSpaceMenu}
             />
