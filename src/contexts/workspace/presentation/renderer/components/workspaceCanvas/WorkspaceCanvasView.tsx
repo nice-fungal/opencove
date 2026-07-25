@@ -41,7 +41,6 @@ export function WorkspaceCanvasView({
   handleCanvasPointerDownCapture,
   handleCanvasPointerMoveCapture,
   handleCanvasPointerUpCapture,
-  handleCanvasDoubleClickCapture,
   handleCanvasWheelCapture,
   handleCanvasPaste,
   handleCanvasDragOver,

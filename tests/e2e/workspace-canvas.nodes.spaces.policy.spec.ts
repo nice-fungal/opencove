@@ -53,12 +53,16 @@ test.describe('Workspace Canvas - Nodes vs Spaces (Policy)', () => {
         throw new Error('pane bounding box unavailable')
       }
 
-      await pane.dblclick({
+      await pane.click({
+        button: 'right',
         position: {
           x: spaceBox.x - paneBox.x - 80,
           y: spaceBox.y - paneBox.y + spaceBox.height / 2,
         },
       })
+      const createNote = window.locator('[data-testid="workspace-context-new-note"]')
+      await expect(createNote).toBeVisible()
+      await createNote.click()
 
       await expect(window.locator('.note-node')).toHaveCount(1)
 
