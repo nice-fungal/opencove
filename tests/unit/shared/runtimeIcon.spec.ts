@@ -1,7 +1,12 @@
 import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { tmpdir } from 'os'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+
+vi.mock('@electron-toolkit/utils', () => ({
+  is: { dev: false },
+}))
+
 import { resolveRuntimeIconPath } from '../../../src/app/main/runtimeIcon'
 
 describe('resolveRuntimeIconPath', () => {
