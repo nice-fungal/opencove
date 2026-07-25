@@ -48,5 +48,13 @@ describe('WorkspaceSpaceRegionItem', () => {
     const filesButton = screen.getByTestId('workspace-space-files-space-1')
     expect(filesButton).toHaveTextContent('opencove')
     expect(filesButton.getAttribute('title')).toContain(directoryPath)
+
+    const topDragHandle = screen.getByTestId('workspace-space-drag-space-1-top')
+    expect(topDragHandle.querySelector('.workspace-space-region__drag-handle-icon')).not.toBeNull()
+    expect(
+      screen
+        .getByTestId('workspace-space-drag-space-1-right')
+        .querySelector('.workspace-space-region__drag-handle-icon'),
+    ).toBeNull()
   })
 })
