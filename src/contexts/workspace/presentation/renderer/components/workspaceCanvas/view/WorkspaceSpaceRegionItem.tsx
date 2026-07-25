@@ -8,7 +8,6 @@ import type { SpaceVisual } from '../types'
 import type { SpaceFrameHandleMode } from '../../../utils/spaceLayout'
 
 export interface WorkspaceSpaceBranchBadge {
-  kind: string
   value: string
   title: string
 }
@@ -31,11 +30,9 @@ export function WorkspaceSpaceRegionItem({
   handleSpaceDragHandlePointerDown,
   updateHandleCursor,
   resolvedWorktreeInfo,
-  allowBranchRename,
   resolvedChangedFileCount,
   resolvedBranchBadge,
   resolvedPullRequestSummary,
-  onStartBranchRename,
   onToggleExplorer,
   onOpenSpaceMenu,
 }: {
@@ -64,17 +61,9 @@ export function WorkspaceSpaceRegionItem({
     mode: SpaceFrameHandleMode,
   ) => void
   resolvedWorktreeInfo: GitWorktreeInfo | null
-  allowBranchRename: boolean
   resolvedChangedFileCount: number | null
   resolvedBranchBadge: WorkspaceSpaceBranchBadge | null
   resolvedPullRequestSummary: GitHubPullRequestSummary | null
-  onStartBranchRename: (payload: {
-    spaceId: string
-    spaceName: string
-    worktreePath: string
-    branchName: string
-    anchor: { x: number; y: number }
-  }) => void
   onToggleExplorer?: (spaceId: string) => void
   onOpenSpaceMenu?: (spaceId: string, anchor: { x: number; y: number }) => void
 }): React.JSX.Element {
