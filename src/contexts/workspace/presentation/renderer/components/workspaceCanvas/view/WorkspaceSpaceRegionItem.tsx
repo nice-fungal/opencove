@@ -76,6 +76,7 @@ export function WorkspaceSpaceRegionItem({
   const branchName = resolvedWorktreeInfo?.branch ?? null
   const worktreePath = resolvedWorktreeInfo?.path ?? null
   const pullRequestUrl = resolvedPullRequestSummary?.ref.url ?? null
+  const directoryName = resolveLastPathSegment(space.directoryPath) ?? t('spaceActions.files')
   const shouldShowPullRequestChip =
     githubPullRequestsEnabled &&
     Boolean(branchName) &&
@@ -93,9 +94,14 @@ export function WorkspaceSpaceRegionItem({
         ? t('worktree.clean')
         : t('worktree.changedFiles', { count: filesPillCount })
       : null
-  const filesPillTitle = filesPillCountLabel
-    ? `${t('spaceActions.openExplorer')} · ${filesPillCountLabel}`
-    : t('spaceActions.openExplorer')
+  const filesPillTitleParts = [t('spaceActions.openExplorer')]
+  if (space.directoryPath.trim().length > 0) {
+    filesPillTitleParts.push(space.directoryPath)
+  }
+  if (filesPillCountLabel) {
+    filesPillTitleParts.push(filesPillCountLabel)
+  }
+  const filesPillTitle = filesPillTitleParts.join(' · ')
   const className = [
     'workspace-space-region',
     space.parentSpaceId ? 'workspace-space-region--child' : null,
