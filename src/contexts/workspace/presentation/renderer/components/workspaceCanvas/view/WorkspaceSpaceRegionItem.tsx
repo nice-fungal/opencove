@@ -1,5 +1,5 @@
 import React from 'react'
-import { Folder, LoaderCircle } from 'lucide-react'
+import { Folder, GripHorizontal, LoaderCircle } from 'lucide-react'
 import { useTranslation } from '@app/renderer/i18n'
 import type { GitHubPullRequestSummary, GitWorktreeInfo } from '@shared/contracts/dto'
 import type { WorkspaceSpaceRect } from '../../../types'
@@ -152,7 +152,15 @@ export function WorkspaceSpaceRegionItem({
           onMouseMove={event => {
             updateHandleCursor(event, resolvedRect, 'auto')
           }}
-        />
+        >
+          {side === 'top' ? (
+            <GripHorizontal
+              className="workspace-space-region__drag-handle-icon"
+              size={14}
+              aria-hidden="true"
+            />
+          ) : null}
+        </div>
       ))}
       {editingSpaceId === space.id ? (
         <input

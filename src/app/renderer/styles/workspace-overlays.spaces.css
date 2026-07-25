@@ -224,6 +224,18 @@
   cursor: grabbing;
 }
 
+.workspace-space-region__drag-handle-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  color: var(--cove-text-muted);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
 .workspace-space-region__drag-handle--right {
   top: -8px;
   right: -8px;
