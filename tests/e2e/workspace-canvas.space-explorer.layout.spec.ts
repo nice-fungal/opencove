@@ -127,7 +127,7 @@ test.describe('Workspace Canvas - Space Explorer', () => {
       const branchBadge = window.locator(
         '[data-testid="workspace-space-worktree-branch-space-root-explorer"]',
       )
-      await expect(branchBadge).toHaveCount(0)
+      await expect(branchBadge).toBeVisible()
 
       const filesPill = window.locator('[data-testid="workspace-space-files-space-root-explorer"]')
       await expect(filesPill).toBeVisible()
