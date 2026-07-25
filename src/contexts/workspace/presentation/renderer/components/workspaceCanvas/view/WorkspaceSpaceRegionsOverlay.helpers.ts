@@ -7,6 +7,15 @@ export function normalizeComparablePath(pathValue: string): string {
   return platform === 'win32' ? normalized.toLowerCase() : normalized
 }
 
+export function resolveLastPathSegment(pathValue: string): string | null {
+  const normalized = pathValue.trim().replace(/[/\\]+$/, '')
+  if (normalized.length === 0) {
+    return null
+  }
+
+  return normalized.split(/[/\\]/).at(-1) ?? null
+}
+
 export function resolveClosestWorktree<T extends { path: string }>(
   worktrees: T[],
   directoryPath: string,

@@ -5,6 +5,7 @@ import type { GitHubPullRequestSummary, GitWorktreeInfo } from '@shared/contract
 import type { WorkspaceSpaceRect } from '../../../types'
 import type { SpaceVisual } from '../types'
 import type { SpaceFrameHandleMode } from '../../../utils/spaceLayout'
+import { resolveLastPathSegment } from './WorkspaceSpaceRegionsOverlay.helpers'
 
 export interface WorkspaceSpaceBranchBadge {
   value: string
@@ -70,6 +71,7 @@ export function WorkspaceSpaceRegionItem({
   const branchName = resolvedWorktreeInfo?.branch ?? null
   const worktreePath = resolvedWorktreeInfo?.path ?? null
   const pullRequestUrl = resolvedPullRequestSummary?.ref.url ?? null
+  const directoryName = resolveLastPathSegment(space.directoryPath) ?? t('spaceActions.files')
   const shouldShowPullRequestChip =
     githubPullRequestsEnabled &&
     Boolean(branchName) &&
@@ -87,9 +89,14 @@ export function WorkspaceSpaceRegionItem({
         ? t('worktree.clean')
         : t('worktree.changedFiles', { count: filesPillCount })
       : null
-  const filesPillTitle = filesPillCountLabel
-    ? `${t('spaceActions.openExplorer')} · ${filesPillCountLabel}`
-    : t('spaceActions.openExplorer')
+  const filesPillTitleParts = [t('spaceActions.openExplorer')]
+  if (space.directoryPath.trim().length > 0) {
+    filesPillTitleParts.push(space.directoryPath)
+  }
+  if (filesPillCountLabel) {
+    filesPillTitleParts.push(filesPillCountLabel)
+  }
+  const filesPillTitle = filesPillTitleParts.join(' · ')
   const className = [
     'workspace-space-region',
     space.parentSpaceId ? 'workspace-space-region--child' : null,
@@ -228,9 +235,7 @@ export function WorkspaceSpaceRegionItem({
               }}
             >
               <Folder className="workspace-space-region__files-pill-icon" aria-hidden="true" />
-              <span className="workspace-space-region__files-pill-label">
-                {t('spaceActions.files')}
-              </span>
+              <span className="workspace-space-region__files-pill-label">{directoryName}</span>
               {filesPillCount !== null && filesPillCount > 0 ? (
                 <span className="workspace-space-region__files-pill-count" aria-hidden="true">
                   {filesPillCount > 99 ? '99+' : filesPillCount}
