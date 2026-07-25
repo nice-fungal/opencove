@@ -1,5 +1,6 @@
 import { existsSync } from 'fs'
 import { resolve } from 'path'
+import { is } from '@electron-toolkit/utils'
 
 function resolveIconCandidates(baseDir: string, platform: NodeJS.Platform): string[] {
   const rootBuildDir = resolve(baseDir, '../../build')
@@ -15,5 +16,9 @@ export function resolveRuntimeIconPath(
   baseDir: string = __dirname,
   platform: NodeJS.Platform = process.platform,
 ): string | null {
+  if (is.dev && process.env['NODE_ENV'] !== 'test') {
+    return null
+  }
+
   return resolveIconCandidates(baseDir, platform).find(candidate => existsSync(candidate)) ?? null
 }
