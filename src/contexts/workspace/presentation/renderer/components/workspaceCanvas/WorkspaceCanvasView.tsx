@@ -43,7 +43,6 @@ export function WorkspaceCanvasView({
   handleCanvasPointerDownCapture,
   handleCanvasPointerMoveCapture,
   handleCanvasPointerUpCapture,
-  handleCanvasDoubleClickCapture,
   handleCanvasWheelCapture,
   handleCanvasPaste,
   handleCanvasDragOver,
@@ -245,7 +244,6 @@ export function WorkspaceCanvasView({
       onPaste={handleCanvasPaste}
       onDragOver={handleCanvasDragOver}
       onDrop={handleCanvasDrop}
-      onDoubleClickCapture={handleCanvasDoubleClickCapture}
       onPointerDownCapture={event => {
         if (event.button === 0 && !isEditableDomTarget(event.target)) {
           canvasRef.current?.focus?.({ preventScroll: true })
