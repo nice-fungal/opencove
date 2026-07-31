@@ -66,7 +66,6 @@ function TestHarness({
     activeSpaceId,
     onActiveSpaceChange: vi.fn(),
     workspacePath: '/tmp/workspace',
-    focusNodeTargetZoom: 1,
     standardWindowSizeBucket: 'regular',
     reactFlow,
     nodes: [NODE],
