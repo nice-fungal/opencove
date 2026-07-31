@@ -119,7 +119,7 @@ test.describe('Workspace Canvas - Spaces (Menu & Switch)', () => {
     }
   })
 
-  test('fits space bounds in viewport when clicking a space switch item', async () => {
+  test('keeps viewport unchanged when clicking a space switch item', async () => {
     const { electronApp, window } = await launchApp()
 
     try {
@@ -153,28 +153,7 @@ test.describe('Workspace Canvas - Spaces (Menu & Switch)', () => {
         },
       )
 
-      const canvasBounds = await window.evaluate(() => {
-        const surface = document.querySelector('.workspace-canvas .react-flow')
-        if (!(surface instanceof HTMLElement)) {
-          return null
-        }
-
-        return {
-          width: surface.clientWidth,
-          height: surface.clientHeight,
-        }
-      })
-
-      if (!canvasBounds) {
-        throw new Error('react-flow surface size unavailable')
-      }
-
-      const targetSpace = {
-        x: 1700,
-        y: 1080,
-        width: 540,
-        height: 380,
-      }
+      const beforeViewport = await readCanvasViewport(window)
 
       await window.locator('[data-testid="workspace-space-switch-space-focus"]').click()
       await expect(window.locator('.workspace-space-switcher__item--active')).toHaveCount(0)
@@ -182,50 +161,17 @@ test.describe('Workspace Canvas - Spaces (Menu & Switch)', () => {
 
       await expect
         .poll(async () => {
-          const viewport = await readCanvasViewport(window)
-          const minFlowX = -viewport.x / viewport.zoom
-          const maxFlowX = (canvasBounds.width - viewport.x) / viewport.zoom
-
+          const afterViewport = await readCanvasViewport(window)
           return {
-            minFlowX,
-            maxFlowX,
-          }
-        })
-        .toEqual(
-          expect.objectContaining({
-            minFlowX: expect.any(Number),
-            maxFlowX: expect.any(Number),
-          }),
-        )
-
-      await expect
-        .poll(async () => {
-          const viewport = await readCanvasViewport(window)
-          const minFlowX = -viewport.x / viewport.zoom
-          const maxFlowX = (canvasBounds.width - viewport.x) / viewport.zoom
-          return {
-            leftVisible: minFlowX <= targetSpace.x + 1,
-            rightVisible: maxFlowX >= targetSpace.x + targetSpace.width - 1,
+            x: afterViewport.x,
+            y: afterViewport.y,
+            zoom: afterViewport.zoom,
           }
         })
         .toEqual({
-          leftVisible: true,
-          rightVisible: true,
-        })
-
-      await expect
-        .poll(async () => {
-          const viewport = await readCanvasViewport(window)
-          const minFlowY = -viewport.y / viewport.zoom
-          const maxFlowY = (canvasBounds.height - viewport.y) / viewport.zoom
-          return {
-            topVisible: minFlowY <= targetSpace.y + 1,
-            bottomVisible: maxFlowY >= targetSpace.y + targetSpace.height - 1,
-          }
-        })
-        .toEqual({
-          topVisible: true,
-          bottomVisible: true,
+          x: beforeViewport.x,
+          y: beforeViewport.y,
+          zoom: beforeViewport.zoom,
         })
     } finally {
       await electronApp.close()

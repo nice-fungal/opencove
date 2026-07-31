@@ -57,7 +57,7 @@ function createTerminalNode({
 }
 
 describe('workspace canvas space location zoom', () => {
-  it('caps space focus zoom at focusNodeTargetZoom', () => {
+  it('does not modify the viewport when focusing a space', () => {
     const setViewport = vi.fn(async () => undefined)
     const reactFlow = {
       setViewport,
@@ -100,7 +100,7 @@ describe('workspace canvas space location zoom', () => {
         activeSpaceId: null,
         onActiveSpaceChange: () => undefined,
         workspacePath: '/tmp',
-        focusNodeTargetZoom: 0.75,
+        standardWindowSizeBucket: 'regular',
         reactFlow: reactFlow as never,
         nodes,
         nodesRef,
@@ -129,9 +129,7 @@ describe('workspace canvas space location zoom', () => {
 
     fireEvent.click(screen.getByTestId('focus-space'))
 
-    expect(setViewport).toHaveBeenCalled()
-    const [viewport] = setViewport.mock.calls[0] ?? []
-    expect(viewport).toEqual(expect.objectContaining({ zoom: 0.75 }))
+    expect(setViewport).not.toHaveBeenCalled()
   })
 
   it('focuses the arranged space instead of resetting to fitView', () => {
