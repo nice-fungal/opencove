@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { getViewportForBounds, useStore, type Node, type ReactFlowInstance } from '@xyflow/react'
-import type { FocusNodeTargetZoom } from '@contexts/settings/domain/agentSettings'
+import type { Node, ReactFlowInstance } from '@xyflow/react'
 import type { TerminalNodeData, WorkspaceSpaceState } from '../../../types'
 import { computeSpaceRectFromNodes } from '../../../utils/spaceLayout'
 import { resolveWorkspaceCanvasViewportAnimation } from '../helpers'
@@ -16,7 +15,6 @@ export function useWorkspaceCanvasSpaceFocus({
   workspaceId,
   activeSpaceId,
   onActiveSpaceChange,
-  focusNodeTargetZoom,
   reactFlow,
   nodesRef,
   spacesRef,
@@ -25,7 +23,6 @@ export function useWorkspaceCanvasSpaceFocus({
   workspaceId: string
   activeSpaceId: string | null
   onActiveSpaceChange: (spaceId: string | null) => void
-  focusNodeTargetZoom: FocusNodeTargetZoom
   reactFlow: ReactFlowInstance<Node<TerminalNodeData>>
   nodesRef: React.MutableRefObject<Node<TerminalNodeData>[]>
   spacesRef: React.MutableRefObject<WorkspaceSpaceState[]>
@@ -40,10 +37,6 @@ export function useWorkspaceCanvasSpaceFocus({
   const lastAppliedWorkspaceIdRef = useRef<string | null>(null)
   const lastAppliedActiveSpaceIdRef = useRef<string | null | undefined>(undefined)
   const skipNextActiveSpaceViewportFocusRef = useRef(false)
-  const viewportWidth = useStore(state => state.width)
-  const viewportHeight = useStore(state => state.height)
-  const viewportMinZoom = useStore(state => state.minZoom)
-  const viewportMaxZoom = useStore(state => state.maxZoom)
 
   const focusSpaceInViewport = useCallback(
     (spaceId: string): boolean => {
